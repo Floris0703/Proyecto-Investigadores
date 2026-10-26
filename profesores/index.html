@@ -1,30 +1,68 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="icon" href="#" type="image/x-icon">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-    <!-- Google Fonts Roboto -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-    <!-- Bootstrap core CSS -->
+    <title>Profesores</title>
+
+    <!-- Archivos locales -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/mdb.min.css">
-    <!-- Your custom styles (optional) -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>
-        Proyecto Git
-    </h1>
-    
 
+    <div class="sidebar shadow">
+        <!-- Encabezado -->
+        <div class="d-flex align-items-center mb-3">
+            <span class="bg-dark text-white
+                        font-weight-bold rounded
+                        px-2 py-1 mr-2">
+                Profesores
+            </span>
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/popper.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/mdb.min.js"></script>
+            <h5 class="mb-0">Menú</h5>
+        </div>
+
+        <hr>
+
+        <!-- Hogar -->
+        <details open>
+            <summary>Hogar</summary>
+
+            <div class="submenu">
+                <a href="#">Descripción general</a>
+                <a href="#">Actualizaciones</a>
+                <a href="#">Informes</a>
+            </div>
+        </details>
+
+        <!-- Panel -->
+        <details open>
+            <summary>Proyectos</summary>
+
+            <div class="submenu">
+                <a href="#">Proyectos titulación</a>
+                <a href="#">Congresos</a>
+                <a href="#">Concursos</a>
+                <a href="#">Libros y articulos</a>
+            </div>
+        </details>
+        <!-- Cuenta -->
+        <details open class="submenu">
+            <summary>Cuenta</summary>
+
+            <div class="submenu">
+                <a href="#">Perfil</a>
+                <a href="#">Editar</a>
+                <a href="#">Desconectar</a>
+            </div>
+        </details>
+
+    </div>
+
 </body>
 </html>

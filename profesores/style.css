@@ -1,0 +1,67 @@
+body {
+    background-color: #f1f1f1;
+    margin: 0;
+}
+
+.sidebar {
+    width: 280px;
+    min-height: 100vh;
+    background-color: white;
+    padding: 16px;
+}
+
+/* Títulos desplegables */
+.sidebar summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #212529;
+}
+
+/* Ocultar flecha predeterminada */
+.sidebar summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Flecha personalizada */
+.sidebar summary::before {
+    content: "";
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    transform: rotate(-45deg);
+    margin-right: 12px;
+    transition: transform 0.2s;
+}
+
+/* Flecha cuando está abierto */
+.sidebar details[open] summary::before {
+    transform: rotate(45deg);
+}
+
+.sidebar summary:hover {
+    background-color: #f1f3f5;
+}
+
+/* Enlaces internos */
+.submenu a {
+    display: block;
+    padding: 6px 0 6px 32px;
+    color: #212529;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.submenu a:hover {
+    background-color: #f1f3f5;
+}
+
+/*Menu activo*/
+.sidebar details[open] > summary {
+    background-color: #d1f0e5;
+    outline: 3px solid #c3ddff;
+    border-radius: 4px;
+}
