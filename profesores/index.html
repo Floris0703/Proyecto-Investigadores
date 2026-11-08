@@ -5,64 +5,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profesores</title>
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
     <!-- Archivos locales -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/mdb.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/mdb.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
-
-    <div class="sidebar shadow">
-        <!-- Encabezado -->
-        <div class="d-flex align-items-center mb-3">
-            <span class="bg-dark text-white
-                        font-weight-bold rounded
-                        px-2 py-1 mr-2">
-                Profesores
-            </span>
-
-            <h5 class="mb-0">Menú</h5>
+    <div class="container">
+        <div class="bg-primary rounded-right pr-3">
+            <div class="bg-success rounded-right pr-3">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-right">
+                    <div class="container-fluid">
+                        <a href="#" class="navbar-brand">
+                            <i class="fas fa-graduation-cap mr-2"></i> TESCo
+                        </a>
+                        <button class="navbar-toggler d-lg-none ml-auto"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#menuLateral"
+                            aria-label="Abrir menú">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <ul class="navbar-nav ml-auto d-none d-lg-flex">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    Inicio
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    Resumen
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-bell"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
-
-        <hr>
-
-        <!-- Hogar -->
-        <details open>
-            <summary>Hogar</summary>
-
-            <div class="submenu">
-                <a href="#">Descripción general</a>
-                <a href="#">Actualizaciones</a>
-                <a href="#">Informes</a>
-            </div>
-        </details>
-
-        <!-- Panel -->
-        <details open>
-            <summary>Proyectos</summary>
-
-            <div class="submenu">
-                <a href="#">Proyectos titulación</a>
-                <a href="#">Congresos</a>
-                <a href="#">Concursos</a>
-                <a href="#">Libros y articulos</a>
-            </div>
-        </details>
-        <!-- Cuenta -->
-        <details open class="submenu">
-            <summary>Cuenta</summary>
-
-            <div class="submenu">
-                <a href="#">Perfil</a>
-                <a href="#">Editar</a>
-                <a href="#">Desconectar</a>
-            </div>
-        </details>
-
     </div>
 
+    <div class="modal fade" id="menuLateral"
+        tabindex="-1" role="dialog"
+        aria-label="Menú de navegación">
+        <div class="modal-dialog m-0 h-100 w-75 mw-100" role="document">
+            <div class="modal-content h-100 bg-dark text-white rounded-0">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Investigadores TESCo
+                    </h5>
+                    <button type="button" class="close text-white"
+                        data-dismiss="modal" aria-label="cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-flex flex-column">
+                    <div>
+                        <small class="text-muted text-uppercase d-block mb-2">
+                            Acádemico
+                        </small>
+                        <nav class="nav flex-column">
+                            <a href="#" class="nav-link text-white bg-primary rounded">
+                                <i class="fas fa-chalkboard-teacher mr-2"></i> Resúmen
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas fa-user mr-2"></i> Mi perfil
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas fa-book mr-2"></i> Productividad
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas-project mr-2"></i>Mis proyectos
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas mr-2"></i>Publicaciones
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas mr-2"></i>Congresos
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas mr-2"></i>Titulación
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas mr-2"></i>Convocatorias
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas mr-2"></i>Postulaciones
+                            </a>
+                        </nav>
+                    </div>
+                    <div class="mt-auto">
+                        <hr>
+                        <nav class="nav flex-column">
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas fa-cog mr-2"></i>Configuración
+                            </a>
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/popper.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/mdb.min.js"></script>
 </body>
 </html>
