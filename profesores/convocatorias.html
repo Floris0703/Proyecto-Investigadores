@@ -1,0 +1,1108 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocatorias | Investigadores TESCo</title>
+
+    <!-- Recursos locales -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/all.min.css">
+</head>
+
+<body class="bg-light">
+
+    <!-- Navbar principal -->
+    <div class="container-fluid px-0">
+        <div class="bg-primary rounded-right pr-3">
+            <div class="bg-success rounded-right pr-3">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-white rounded-right shadow-sm">
+                    <div class="container-fluid">
+
+                        <a href="index.html" class="navbar-brand">
+                            <i class="fas fa-graduation-cap mr-2"></i>
+                            TESCo
+                        </a>
+
+                        <ul class="navbar-nav flex-row ml-auto align-items-center">
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link px-2" aria-label="Inicio">
+                                    <i class="fas fa-home"></i>
+                                    <span class="d-none d-lg-inline ml-1">
+                                        Inicio
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link px-2">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span class="d-none d-lg-inline ml-1">
+                                        Resumen
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link px-2" aria-label="Notificaciones">
+                                    <i class="fas fa-bell"></i>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="perfil.html" class="nav-link px-2" aria-label="Mi perfil">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                        <button class="navbar-toggler d-block ml-2"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#menuLateral"
+                            aria-label="Abrir menú">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Menú lateral -->
+    <div class="modal fade" id="menuLateral"
+        tabindex="-1" role="dialog"
+        aria-labelledby="tituloMenu">
+
+        <div class="modal-dialog m-0 h-100 w-75 mw-100" role="document">
+            <div class="modal-content h-100 bg-dark text-white rounded-0">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloMenu">
+                        Investigadores TESCo
+                    </h5>
+
+                    <button type="button" class="close text-white"
+                        data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body d-flex flex-column overflow-auto">
+
+                    <div>
+                        <small class="text-muted text-uppercase d-block mb-2">
+                            Académico
+                        </small>
+
+                        <nav class="nav flex-column">
+
+                            <a href="index.html" class="nav-link text-white">
+                                <i class="fas fa-chalkboard-teacher mr-2"></i>
+                                Resumen
+                            </a>
+
+                            <a href="perfil.html" class="nav-link text-white">
+                                <i class="fas fa-user mr-2"></i>
+                                Mi perfil
+                            </a>
+
+                            <a href="productividad.html" class="nav-link text-white">
+                                <i class="fas fa-chart-bar mr-2"></i>
+                                Productividad
+                            </a>
+
+                            <a href="proyectos.html" class="nav-link text-white">
+                                <i class="fas fa-project-diagram mr-2"></i>
+                                Mis proyectos
+                            </a>
+
+                            <a href="publicaciones.html" class="nav-link text-white">
+                                <i class="fas fa-book-open mr-2"></i>
+                                Publicaciones
+                            </a>
+
+                            <a href="congresos.html" class="nav-link text-white">
+                                <i class="fas fa-globe-americas mr-2"></i>
+                                Congresos
+                            </a>
+
+                            <a href="titulacion.html" class="nav-link text-white">
+                                <i class="fas fa-graduation-cap mr-2"></i>
+                                Titulación
+                            </a>
+
+                            <a href="convocatorias.html"
+                                class="nav-link text-white bg-primary rounded"
+                                aria-current="page">
+                                <i class="fas fa-bullhorn mr-2"></i>
+                                Convocatorias
+                            </a>
+
+                            <a href="postulaciones.html" class="nav-link text-white">
+                                <i class="fas fa-users mr-2"></i>
+                                Postulaciones
+                            </a>
+
+                        </nav>
+                    </div>
+
+                    <div class="mt-auto pt-4">
+                        <hr class="border-secondary">
+
+                        <nav class="nav flex-column">
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas fa-cog mr-2"></i>
+                                Configuración
+                            </a>
+
+                            <a href="#" class="nav-link text-white">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Cerrar sesión
+                            </a>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="container-fluid mt-4 px-3 px-md-4">
+
+        <!-- Encabezado -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+            <div class="mb-3 mb-md-0">
+                <h3 class="mb-1">
+                    Mis convocatorias
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Publica oportunidades académicas y consulta
+                    las convocatorias dirigidas a estudiantes.
+                </p>
+            </div>
+
+            <button type="button" class="btn btn-success"
+                data-toggle="modal"
+                data-target="#modalNuevaConvocatoria">
+                <i class="fas fa-plus mr-2"></i>
+                Nueva convocatoria
+            </button>
+
+        </div>
+
+        <!-- Indicadores -->
+        <div class="row">
+
+            <div class="col-12 col-sm-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title text-success mb-1">2</h3>
+                        <p class="text-muted mb-0">
+                            Convocatorias abiertas
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title text-secondary mb-1">1</h3>
+                        <p class="text-muted mb-0">
+                            Convocatorias cerradas
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title text-warning mb-1">1</h3>
+                        <p class="text-muted mb-0">
+                            Borradores
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Listado de convocatorias -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+
+                <h5 class="card-title mb-3">
+                    <i class="fas fa-bullhorn text-success mr-2"></i>
+                    Convocatorias registradas
+                </h5>
+
+                <!-- Pestañas -->
+                <ul class="nav nav-tabs flex-nowrap overflow-auto mb-4"
+                    role="tablist">
+
+                    <li class="nav-item">
+                        <a href="#abiertas"
+                            class="nav-link active text-dark text-nowrap"
+                            data-toggle="tab">
+                            Abiertas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#cerradas"
+                            class="nav-link text-dark text-nowrap"
+                            data-toggle="tab">
+                            Cerradas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#borradores"
+                            class="nav-link text-dark text-nowrap"
+                            data-toggle="tab">
+                            Borradores
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- Contenido de las pestañas -->
+                <div class="tab-content">
+
+                    <!-- Convocatorias abiertas -->
+                    <div class="tab-pane fade show active" id="abiertas">
+
+                        <div class="row">
+
+                            <!-- Convocatoria abierta 1 -->
+                            <div class="col-12 col-md-6 col-xl-4 mb-3">
+                                <div class="card h-100 border shadow-sm">
+
+                                    <div class="card-body">
+
+                                        <span class="badge badge-success mb-2">
+                                            Abierta
+                                        </span>
+
+                                        <h5 class="card-title">
+                                            Desarrollo de sistemas de monitoreo
+                                        </h5>
+
+                                        <p class="text-muted">
+                                            Proyecto de investigación
+                                        </p>
+
+                                        <p class="card-text">
+                                            Se solicitan estudiantes interesados
+                                            en colaborar en el desarrollo de
+                                            sistemas de monitoreo tecnológico.
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <i class="fas fa-calendar-alt mr-2"></i>
+                                            Cierre: 22/11/2026
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <i class="fas fa-user-friends mr-2"></i>
+                                            2 lugares disponibles
+                                        </p>
+
+                                        <p class="text-muted mb-0">
+                                            <small>
+                                                4 postulaciones registradas
+                                            </small>
+                                        </p>
+
+                                    </div>
+
+                                    <div class="card-footer bg-white">
+
+                                        <button type="button"
+                                            class="btn btn-outline-primary btn-sm mb-1"
+                                            data-toggle="modal"
+                                            data-target="#detalleConvocatoria1">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            Ver detalles
+                                        </button>
+
+                                        <a href="postulaciones.html"
+                                            class="btn btn-outline-success btn-sm mb-1">
+                                            <i class="fas fa-users mr-1"></i>
+                                            Postulaciones
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Convocatoria abierta 2 -->
+                            <div class="col-12 col-md-6 col-xl-4 mb-3">
+                                <div class="card h-100 border shadow-sm">
+
+                                    <div class="card-body">
+
+                                        <span class="badge badge-success mb-2">
+                                            Abierta
+                                        </span>
+
+                                        <h5 class="card-title">
+                                            Análisis de datos académicos
+                                        </h5>
+
+                                        <p class="text-muted">
+                                            Colaboración de investigación
+                                        </p>
+
+                                        <p class="card-text">
+                                            Convocatoria para estudiantes con
+                                            interés en análisis estadístico,
+                                            bases de datos y visualización.
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <i class="fas fa-calendar-alt mr-2"></i>
+                                            Cierre: 30/11/2026
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <i class="fas fa-user-friends mr-2"></i>
+                                            3 lugares disponibles
+                                        </p>
+
+                                        <p class="text-muted mb-0">
+                                            <small>
+                                                2 postulaciones registradas
+                                            </small>
+                                        </p>
+
+                                    </div>
+
+                                    <div class="card-footer bg-white">
+
+                                        <button type="button"
+                                            class="btn btn-outline-primary btn-sm mb-1"
+                                            data-toggle="modal"
+                                            data-target="#detalleConvocatoria2">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            Ver detalles
+                                        </button>
+
+                                        <a href="postulaciones.html"
+                                            class="btn btn-outline-success btn-sm mb-1">
+                                            <i class="fas fa-users mr-1"></i>
+                                            Postulaciones
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Convocatorias cerradas -->
+                    <div class="tab-pane fade" id="cerradas">
+
+                        <div class="row">
+
+                            <div class="col-12 col-md-6 col-xl-4 mb-3">
+                                <div class="card h-100 border shadow-sm">
+
+                                    <div class="card-body">
+
+                                        <span class="badge badge-secondary mb-2">
+                                            Cerrada
+                                        </span>
+
+                                        <h5 class="card-title">
+                                            Plataforma de gestión de inventarios
+                                        </h5>
+
+                                        <p class="text-muted">
+                                            Proyecto tecnológico
+                                        </p>
+
+                                        <p class="card-text">
+                                            Convocatoria para colaborar en el
+                                            desarrollo de una plataforma de
+                                            administración de recursos.
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <i class="fas fa-calendar-check mr-2"></i>
+                                            Cerrada: 20/10/2026
+                                        </p>
+
+                                        <p class="text-muted mb-0">
+                                            <small>
+                                                5 postulaciones registradas
+                                            </small>
+                                        </p>
+
+                                    </div>
+
+                                    <div class="card-footer bg-white">
+
+                                        <button type="button"
+                                            class="btn btn-outline-primary btn-sm mb-1"
+                                            data-toggle="modal"
+                                            data-target="#detalleConvocatoria3">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            Ver detalles
+                                        </button>
+
+                                        <a href="postulaciones.html"
+                                            class="btn btn-outline-secondary btn-sm mb-1">
+                                            <i class="fas fa-history mr-1"></i>
+                                            Historial
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Borradores -->
+                    <div class="tab-pane fade" id="borradores">
+
+                        <div class="row">
+
+                            <div class="col-12 col-md-6 col-xl-4 mb-3">
+                                <div class="card h-100 border shadow-sm">
+
+                                    <div class="card-body">
+
+                                        <span class="badge badge-warning mb-2">
+                                            Borrador
+                                        </span>
+
+                                        <h5 class="card-title">
+                                            Laboratorio de automatización
+                                        </h5>
+
+                                        <p class="text-muted">
+                                            Colaboración académica
+                                        </p>
+
+                                        <p class="card-text">
+                                            Propuesta de convocatoria para
+                                            incorporar estudiantes a actividades
+                                            de automatización y programación.
+                                        </p>
+
+                                        <p class="mb-1">
+                                            <i class="fas fa-pencil-alt mr-2"></i>
+                                            Pendiente de publicación
+                                        </p>
+
+                                        <p class="text-muted mb-0">
+                                            <small>
+                                                No visible para alumnos
+                                            </small>
+                                        </p>
+
+                                    </div>
+
+                                    <div class="card-footer bg-white">
+
+                                        <button type="button"
+                                            class="btn btn-outline-primary btn-sm mb-1"
+                                            data-toggle="modal"
+                                            data-target="#detalleBorrador">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            Vista previa
+                                        </button>
+
+                                        <button type="button"
+                                            class="btn btn-outline-secondary btn-sm mb-1"
+                                            disabled>
+                                            <i class="fas fa-edit mr-1"></i>
+                                            Editar
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Botón flotante -->
+    <div class="fixed-bottom d-flex justify-content-end p-4">
+
+        <button type="button"
+            class="btn btn-success rounded-circle shadow p-3"
+            data-toggle="modal"
+            data-target="#modalNuevaConvocatoria"
+            aria-label="Nueva convocatoria"
+            title="Nueva convocatoria">
+
+            <i class="fas fa-plus"></i>
+
+        </button>
+
+    </div>
+
+    <!-- Modal detalle convocatoria 1 -->
+    <div class="modal fade" id="detalleConvocatoria1"
+        tabindex="-1" role="dialog"
+        aria-labelledby="tituloConvocatoria1"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloConvocatoria1">
+                        Desarrollo de sistemas de monitoreo
+                    </h5>
+
+                    <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <span class="badge badge-success mb-3">
+                        Convocatoria abierta
+                    </span>
+
+                    <h6>Descripción</h6>
+                    <p>
+                        Se invita a estudiantes a participar en un
+                        proyecto de investigación dedicado al desarrollo
+                        de sistemas de monitoreo tecnológico.
+                    </p>
+
+                    <hr>
+
+                    <h6>Requisitos</h6>
+                    <ul>
+                        <li>Ser estudiante activo del TESCo.</li>
+                        <li>Conocimientos básicos de programación.</li>
+                        <li>Disponibilidad para reuniones de seguimiento.</li>
+                        <li>Interés en investigación tecnológica.</li>
+                    </ul>
+
+                    <hr>
+
+                    <p><strong>Responsable:</strong> José Luis Camacho Campero</p>
+                    <p><strong>Área:</strong> Sistemas Computacionales</p>
+                    <p><strong>Lugares:</strong> 2</p>
+                    <p><strong>Publicación:</strong> 01/11/2026</p>
+                    <p><strong>Fecha límite:</strong> 22/11/2026</p>
+                    <p><strong>Horario:</strong> Por acordar</p>
+                    <p><strong>Documentos:</strong> No adjuntos</p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <a href="postulaciones.html"
+                        class="btn btn-outline-success">
+                        Ver postulaciones
+                    </a>
+
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Cerrar
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal detalle convocatoria 2 -->
+    <div class="modal fade" id="detalleConvocatoria2"
+        tabindex="-1" role="dialog"
+        aria-labelledby="tituloConvocatoria2"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloConvocatoria2">
+                        Análisis de datos académicos
+                    </h5>
+
+                    <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <span class="badge badge-success mb-3">
+                        Convocatoria abierta
+                    </span>
+
+                    <h6>Descripción</h6>
+                    <p>
+                        Se buscan estudiantes interesados en colaborar
+                        en actividades de análisis estadístico y
+                        visualización de información académica.
+                    </p>
+
+                    <hr>
+
+                    <h6>Requisitos</h6>
+                    <ul>
+                        <li>Ser estudiante activo del TESCo.</li>
+                        <li>Conocimientos básicos de bases de datos.</li>
+                        <li>Interés en estadística y análisis de datos.</li>
+                        <li>Disponibilidad para trabajo colaborativo.</li>
+                    </ul>
+
+                    <hr>
+
+                    <p><strong>Responsable:</strong> José Luis Camacho Campero</p>
+                    <p><strong>Área:</strong> Análisis de datos</p>
+                    <p><strong>Lugares:</strong> 3</p>
+                    <p><strong>Publicación:</strong> 05/11/2026</p>
+                    <p><strong>Fecha límite:</strong> 30/11/2026</p>
+                    <p><strong>Documentos:</strong> No adjuntos</p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <a href="postulaciones.html"
+                        class="btn btn-outline-success">
+                        Ver postulaciones
+                    </a>
+
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Cerrar
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal detalle convocatoria cerrada -->
+    <div class="modal fade" id="detalleConvocatoria3"
+        tabindex="-1" role="dialog"
+        aria-labelledby="tituloConvocatoria3"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloConvocatoria3">
+                        Plataforma de gestión de inventarios
+                    </h5>
+
+                    <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <span class="badge badge-secondary mb-3">
+                        Convocatoria cerrada
+                    </span>
+
+                    <h6>Descripción</h6>
+                    <p>
+                        Convocatoria para integrar estudiantes
+                        al desarrollo de una plataforma de
+                        administración y control de inventarios.
+                    </p>
+
+                    <hr>
+
+                    <h6>Requisitos</h6>
+                    <ul>
+                        <li>Conocimientos básicos de desarrollo web.</li>
+                        <li>Interés en proyectos de software.</li>
+                        <li>Disponibilidad para reuniones.</li>
+                    </ul>
+
+                    <hr>
+
+                    <p><strong>Responsable:</strong> José Luis Camacho Campero</p>
+                    <p><strong>Fecha de cierre:</strong> 20/10/2026</p>
+                    <p><strong>Postulaciones:</strong> 5</p>
+                    <p><strong>Estado:</strong> Cerrada</p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <a href="postulaciones.html"
+                        class="btn btn-outline-secondary">
+                        Consultar historial
+                    </a>
+
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Cerrar
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal vista previa de borrador -->
+    <div class="modal fade" id="detalleBorrador"
+        tabindex="-1" role="dialog"
+        aria-labelledby="tituloBorrador"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloBorrador">
+                        Laboratorio de automatización
+                    </h5>
+
+                    <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <span class="badge badge-warning mb-3">
+                        Borrador
+                    </span>
+
+                    <div class="alert alert-warning">
+                        Esta convocatoria todavía no está publicada
+                        y no es visible para los estudiantes.
+                    </div>
+
+                    <h6>Descripción</h6>
+                    <p>
+                        Propuesta de convocatoria para incorporar
+                        estudiantes a actividades académicas
+                        de automatización y programación.
+                    </p>
+
+                    <hr>
+
+                    <p><strong>Responsable:</strong> José Luis Camacho Campero</p>
+                    <p><strong>Área:</strong> Automatización</p>
+                    <p><strong>Lugares:</strong> Pendiente de definir</p>
+                    <p><strong>Fecha límite:</strong> Sin definir</p>
+                    <p><strong>Estado:</strong> Sin publicar</p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Cerrar
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal nueva convocatoria -->
+    <div class="modal fade" id="modalNuevaConvocatoria"
+        tabindex="-1" role="dialog"
+        aria-labelledby="tituloNuevaConvocatoria"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+            role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+
+                    <h5 class="modal-title" id="tituloNuevaConvocatoria">
+                        Crear nueva convocatoria
+                    </h5>
+
+                    <button type="button" class="close text-white"
+                        data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p class="text-muted">
+                        Formulario demostrativo. Los datos no se
+                        guardarán ni publicarán durante esta etapa.
+                    </p>
+
+                    <form>
+
+                        <!-- Datos generales -->
+                        <h6 class="text-success mb-3">
+                            Información general
+                        </h6>
+
+                        <div class="form-group">
+                            <label for="tituloConvocatoria">
+                                Título de la convocatoria
+                            </label>
+
+                            <input type="text" class="form-control"
+                                id="tituloConvocatoria"
+                                placeholder="Nombre de la convocatoria">
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="tipoConvocatoria">
+                                    Tipo de convocatoria
+                                </label>
+
+                                <select class="form-control" id="tipoConvocatoria">
+                                    <option value="" selected>Seleccionar...</option>
+                                    <option>Proyecto de investigación</option>
+                                    <option>Proyecto de titulación</option>
+                                    <option>Colaboración académica</option>
+                                    <option>Otra actividad</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="proyectoRelacionado">
+                                    Proyecto relacionado
+                                </label>
+
+                                <select class="form-control" id="proyectoRelacionado">
+                                    <option value="" selected>Sin proyecto asociado</option>
+                                    <option>Sistema de monitoreo inteligente</option>
+                                    <option>Análisis de datos académicos</option>
+                                    <option>Sistema de inventarios</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcionConvocatoria">
+                                Descripción
+                            </label>
+
+                            <textarea class="form-control"
+                                id="descripcionConvocatoria"
+                                rows="4"
+                                placeholder="Describe la oportunidad académica"></textarea>
+                        </div>
+
+                        <hr>
+
+                        <!-- Requisitos -->
+                        <h6 class="text-success mb-3">
+                            Requisitos y participación
+                        </h6>
+
+                        <div class="form-group">
+                            <label for="requisitosConvocatoria">
+                                Requisitos
+                            </label>
+
+                            <textarea class="form-control"
+                                id="requisitosConvocatoria"
+                                rows="4"
+                                placeholder="Especifica los conocimientos y condiciones de participación"></textarea>
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="lugaresConvocatoria">
+                                    Lugares disponibles
+                                </label>
+
+                                <input type="number" class="form-control"
+                                    id="lugaresConvocatoria"
+                                    min="1"
+                                    placeholder="Número de lugares">
+                            </div>
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="horarioConvocatoria">
+                                    Horario de colaboración
+                                </label>
+
+                                <input type="text" class="form-control"
+                                    id="horarioConvocatoria"
+                                    placeholder="Ej. Lunes y miércoles, 10 a 12 h">
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <!-- Fechas -->
+                        <h6 class="text-success mb-3">
+                            Fechas de la convocatoria
+                        </h6>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="inicioConvocatoria">
+                                    Inicio de recepción
+                                </label>
+
+                                <input type="date" class="form-control"
+                                    id="inicioConvocatoria">
+                            </div>
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="cierreConvocatoria">
+                                    Fecha límite
+                                </label>
+
+                                <input type="date" class="form-control"
+                                    id="cierreConvocatoria">
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <!-- Recursos adjuntos -->
+                        <h6 class="text-success mb-3">
+                            Recursos y documentos
+                        </h6>
+
+                        <div class="form-group">
+                            <label for="imagenConvocatoria">
+                                Imagen de portada
+                            </label>
+
+                            <input type="file" class="form-control-file"
+                                id="imagenConvocatoria"
+                                accept="image/*">
+
+                            <small class="form-text text-muted">
+                                Selección visual de una imagen.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentoConvocatoria">
+                                Documento de la convocatoria
+                            </label>
+
+                            <input type="file" class="form-control-file"
+                                id="documentoConvocatoria"
+                                accept=".pdf,.doc,.docx">
+
+                            <small class="form-text text-muted">
+                                No se cargarán documentos en esta etapa.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="urlConvocatoria">
+                                Enlace de información adicional
+                            </label>
+
+                            <input type="url" class="form-control"
+                                id="urlConvocatoria"
+                                placeholder="https://">
+                        </div>
+
+                        <hr>
+
+                        <!-- Estado de publicación -->
+                        <h6 class="text-success mb-3">
+                            Estado de publicación
+                        </h6>
+
+                        <div class="form-group">
+                            <label for="estadoConvocatoria">
+                                Acción prevista
+                            </label>
+
+                            <select class="form-control" id="estadoConvocatoria">
+                                <option value="" selected>Seleccionar...</option>
+                                <option>Guardar como borrador</option>
+                                <option>Publicar convocatoria</option>
+                            </select>
+
+                            <small class="form-text text-muted">
+                                Esta selección no ejecuta ninguna acción.
+                            </small>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="btn btn-outline-primary" disabled>
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar borrador
+                    </button>
+
+                    <button type="button" class="btn btn-success" disabled>
+                        <i class="fas fa-bullhorn mr-2"></i>
+                        Publicar
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript local -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+
+</body>
+</html>
