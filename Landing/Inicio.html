@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Plataforma institucional para consultar proyectos, publicaciones y actividades académicas.">
+  <title>Inicio</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navegación principal: sintaxis compatible con Bootstrap 4.4.1 -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+    <div class="container">
+      <a class="navbar-brand font-weight-bold" href="#inicio">Tesco</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarPrincipal"
+        aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Abrir navegación">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarPrincipal">
+        <ul class="navbar-nav ml-auto align-items-lg-center">
+          <li class="nav-item ml-lg-2 mt-2 mt-lg-0">
+            <a 
+              class="btn btn-outline-success btn-sm px-3"
+              href="#"
+              data-toggle="modal"
+              data-target="#mG"
+          >   
+          Iniciar sesión
+        </a>
+          </li>
+          <li class="nav-item ml-lg-2 mt-2 mt-lg-0">
+            <a 
+              class="btn btn-outline-success btn-sm px-3"
+              href="#"
+              data-toggle="modal"
+              data-target="#LogInicio"
+          >   
+          Registrarse
+        </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+        <!-- Institucional -->
+    <section class="section-padding section-muted">
+      <div class="container">
+        <div class="institution-block">
+          <span class="section-kicker">INVESTIGACIÓN E INNOVACIÓN</span>
+          <h2>El conocimiento también construye comunidad</h2>
+          <p>Esta plataforma busca facilitar el acceso a la información sobre el trabajo académico de la institución, dar visibilidad a sus investigadores y contribuir al seguimiento de sus actividades y resultados.</p>
+        </div>
+      </div>
+    </section>
+          <div
+            class="modal fade"
+            id="LogInicio"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">
+                            Bienvenido
+                        </h5>
+
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Cerrar"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>
+                          Desea continuar como: <br>
+                          <input type="radio" id="log" name="login" value="Alum">
+                          <label for="age1">Alumno</label><br>
+                          <input type="radio" id="log" name="login" value="Prof">
+                          <label for="age1">Profesor</label><br>
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-dismiss="modal"
+                            data-toggle="modal"
+                            data-target="#Registro"
+                        >
+                            Siguiente
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+          <div
+            class="modal fade"
+            id="mG"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">
+                            Bienvenido
+                        </h5>
+
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Cerrar"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>
+                          Desea continuar como: <br>
+                          <input type="radio" id="log" name="login" value="Alum">
+                          <label for="age1">Alumno</label><br>
+                          <input type="radio" id="log" name="login" value="Prof">
+                          <label for="age1">Profesor</label><br>
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-dismiss="modal"
+                            data-toggle="modal"
+                            data-target="#loggin"
+                        >
+                            Siguiente
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div
+            class="modal fade"
+            id="loggin"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">
+                            Inicio de Sesion:
+                        </h5>
+
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Cerrar"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body text-center">
+                      <img src="images/log icon.png" style="width: 50%;">
+                        <p>
+                          <div class="row">
+                            <div class="col-lg-4"> 
+                              <label for ="correo" class="form-label fw-bold small">Correo:</label>
+                            </div>  
+                            <div class="col-lg-8"> 
+                              <input type="email" id="correo" name="email" class="form-control" placeholder="usuario@dominio.com" required>                          
+                            </div>
+                            <div class="col-lg-4">
+                              <label for="pass" class="form-label fw-bold small">Contraseña:</label>
+                            </div>
+                            <div class="col-lg-8">
+                              <input type="password" id="pass" name="password" class="form-control" minlength="8" maxlength="20" required placeholder="Inserte su contraseña"> 
+                            </div>  
+                          </div>
+                        </p >
+                    </div>
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-dismiss="modal"
+                            data-target="#log"
+                        >
+                            Siguiente
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div
+            class="modal fade"
+            id="Registro"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">
+                            Registro:
+                        </h5>
+
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Cerrar"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body text-center">
+                      <img src="images/log icon.png" style="width: 50%;">
+                        <p>
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <label for="nombre" class="form-label fw-bold small">Nombre:</label>
+                            </div>
+                            <div class="col-lg-8">                
+                              <input type="texto" id="nombre" name="nombre" class="form-control" placeholder="Nombre" required autofocus>
+                            </div>
+                            <div class="col-lg-4">
+                              <label for="nombre" class="form-label fw-bold small">Semestre:</label>
+                            </div>
+                            <div class="col-lg-8">                
+                              <input type="texto" id="nombre" name="nombre" class="form-control" placeholder="Semestre" required autofocus>
+                            </div>
+                            <div class="col-lg-4">
+                              <label for="nombre" class="form-label fw-bold small">Carrera:</label>
+                            </div>
+                            <div class="col-lg-8">                
+                              <input type="texto" id="nombre" name="nombre" class="form-control" placeholder="Carrera" required autofocus>
+                            </div>                                                           
+                            <div class="col-lg-4"> 
+                              <label for ="correo" class="form-label fw-bold small">Correo:</label>
+                            </div>  
+                            <div class="col-lg-8"> 
+                              <input type="email" id="correo" name="email" class="form-control" placeholder="usuario@dominio.com" required>                          
+                            </div>
+                            <div class="col-lg-4">
+                              <label for="pass" class="form-label fw-bold small">Contraseña:</label>
+                            </div>
+                            <div class="col-lg-8">
+                              <input type="password" id="pass" name="password" class="form-control" minlength="8" maxlength="20" required placeholder="Inserte su contraseña"> 
+                            </div>
+                            <div class="col-lg-4">
+                              <label for="telefono" class="forma-label fw-bold small">Teléfono (tel):</label>
+                            </div>
+                            <div class="col-lg-8">
+                              <input type="tel" idi="telefono" name="telefono" class="form-control" pattern="[0-9]{10}" placeholder="10 dígitos numéricos">
+                            </div>   
+                          </div>
+                        </p >
+                    </div>
+
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-dismiss="modal"
+                            data-target="#log"
+                        >
+                            Siguiente
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>                
+
+    <!-- Indicadores generales -->
+    <section class="section-padding" aria-labelledby="titulo-indicadores">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-kicker">EN CIFRAS</span>
+          <h2 id="titulo-indicadores">Actividad académica institucional</h2>
+          <p>Indicadores generales de la producción académica registrada.</p>
+        </div>
+        <div class="row">
+          <div class="col-6 col-lg-3 mb-3"><article class="stat-card"><span class="stat-label">Profesores</span><strong>30</strong><span class="stat-note">Investigadores registrados</span></article></div>
+          <div class="col-6 col-lg-3 mb-3"><article class="stat-card"><span class="stat-label">Proyectos</span><strong>125</strong><span class="stat-note">Proyectos registrados</span></article></div>
+          <div class="col-6 col-lg-3 mb-3"><article class="stat-card"><span class="stat-label">Artículos</span><strong>86</strong><span class="stat-note">Publicaciones académicas</span></article></div>
+          <div class="col-6 col-lg-3 mb-3"><article class="stat-card"><span class="stat-label">Congresos</span><strong>42</strong><span class="stat-note">Participaciones registradas</span></article></div>
+        </div>
+      </div>
+    <style>
+      .news-tile {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.news-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+    </style>
+    <!-- Producción académica -->
+      <div class="container">
+
+<div class="row">
+
+    <!-- ARTÍCULOS: columna izquierda -->
+    <div class="col-lg-8 col-md-12 mb-4">
+        <div class="news-tile view zoom z-depth-1 h-100">
+            <a href="Historia.html" class="text-white">
+                <img src="images/art inv.webp" class="img-fluid w-100" alt="Artículos">
+
+                <div class="mask rgba-stylish-strong">
+                    <div class="text-white text-center py-lg-5 py-0 my-0">
+                        <h4 class="card-title font-weight-bold">
+                            <strong>Artículos</strong>
+                        </h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div class="col-lg-4 col-md-12 mb-4 d-flex flex-column">
+
+        <!-- CONGRESOS -->
+        <div class="news-tile view zoom z-depth-1 flex-fill mb-3">
+            <a href="Ofrendas.html" class="text-white">
+                <img src="images/congrsos.jpg" class="img-fluid w-100" alt="Congresos">
+
+                <div class="mask rgba-stylish-strong">
+                    <div class="text-white text-center py-lg-5 py-0 my-0">
+                        <h4 class="card-title font-weight-bold">
+                            <strong>Congresos</strong>
+                        </h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- LIBROS Y TITULADOS -->
+        <div class="row flex-fill">
+
+            <div class="col-6">
+                <div class="news-tile view zoom z-depth-1 h-100">
+                    <a href="Vestimenta.html" class="text-white">
+                        <img src="images/libros.jpg" class="img-fluid w-100" alt="Libros">
+
+                        <div class="mask rgba-stylish-strong">
+                            <div class="text-white text-center py-lg-5 py-0 my-0">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>Libros</strong>
+                                </h4>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="news-tile view zoom z-depth-1 h-100">
+                    <a href="Artesania.html" class="text-white">
+                        <img src="images/tesis.jpg" class="img-fluid w-100" alt="Titulados">
+
+                        <div class="mask rgba-stylish-strong">
+                            <div class="text-white text-center py-lg-5 py-0 my-0">
+                                <h4 class="card-title font-weight-bold">
+                                    <strong>Titulados</strong>
+                                </h4>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+      </div>
+    </section>
+
+    <!-- Investigadores -->
+    <section id="profesores" class="section-padding section-muted">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section-kicker">Anuncios</span>
+          <h2>Proximos Proyectos</h2>
+          <p>Postulate o conoce sobre nuestros mas recientes proyectos</p>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-4"><article class="profile-card h-100"><div class="avatar-placeholder">Foto</div><h3>Nombre del Proyecto</h3><p class="profile-area">Área de investigación</p><p>Breve descripción </p><a href="#acceso" class="text-link">Postular &rarr;</a></article></div>
+<div class="col-md-4 mb-4"><article class="profile-card h-100"><div class="avatar-placeholder">Foto</div><h3>Nombre del Proyecto</h3><p class="profile-area">Área de investigación</p><p>Breve descripción </p><a href="#acceso" class="text-link">Postular &rarr;</a></article></div>          
+<div class="col-md-4 mb-4"><article class="profile-card h-100"><div class="avatar-placeholder">Foto</div><h3>Nombre del Proyecto</h3><p class="profile-area">Área de investigación</p><p>Breve descripción </p><a href="#acceso" class="text-link">Postular &rarr;</a></article></div>        </div>
+      </div>
+    </section>
+
+
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 mb-4 mb-md-0"><a class="footer-brand" href="#inicio">Tesco</a><p class="mt-2">Plataforma institucional de producción académica e investigación.</p></div>
+        <div class="col-md-3 mb-4 mb-md-0"><h2 class="h6">Navegación</h2><a href="#profesores">Profesores</a><a href="#produccion">Producción académica</a><a href="#estadisticas">Estadísticas</a></div>
+        <div class="col-md-4"><h2 class="h6">Contacto institucional</h2><p>Correo: contacto@institucion.edu.mx</p><p>Teléfono: (000) 000 0000</p></div>
+      </div>
+      <div class="footer-bottom">&copy; 2026 Institución educativa. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <!-- Dependencias requeridas por Bootstrap 4.4.1: jQuery, Popper y Bootstrap -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
