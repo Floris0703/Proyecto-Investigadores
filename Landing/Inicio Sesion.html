@@ -9,39 +9,120 @@
   <link rel="stylesheet" href="../css/mdb.min.css">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-  <main>               
-    <div class="container text-center">
-      <br><br>
-        <img src="images/log icon.png" style="width: 50%;">
-          <p>
-            <div class="row">
-              <div class="col-lg-4"> 
-                <label for ="correo" class="form-label fw-bold small">Correo:</label>
-              </div>  
-              <div class="col-lg-8"> 
-                <input type="email" id="correo" name="email" class="form-control" placeholder="usuario@dominio.com" required>                          
-              </div>
-              <div class="col-lg-4">
-                <label for="pass" class="form-label fw-bold small">Contraseña:</label>
-              </div>
-              <div class="col-lg-8">
-                <input type="password" id="pass" name="password" class="form-control" minlength="8" maxlength="20" required placeholder="Inserte su contraseña"> 
-              </div>  
+```html
+<body class="bg-light">
+
+    <main class="container min-vh-100 d-flex align-items-center justify-content-center">
+
+        <div class="row justify-content-center w-100">
+
+            <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+
+                <div class="card shadow border-0 rounded-lg">
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <!-- Logo -->
+                        <div class="text-center mb-4">
+
+                            <img
+                                src="images/log icon.png"
+                                class="img-fluid mb-3"
+                                style="max-width: 180px;"
+                                alt="Logo institucional"
+                            >
+
+                            <h4 class="font-weight-bold text-dark">
+                                Bienvenido
+                            </h4>
+
+                            <p class="text-muted small">
+                                Ingresa tus credenciales para continuar
+                            </p>
+
+                        </div>
+
+                        <!-- Formulario -->
+                        <form action="Inicio.html" method="get">
+
+                            <!-- Correo -->
+                            <div class="form-group">
+
+                                <label for="correo" class="font-weight-bold small">
+                                    Correo electrónico
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="correo"
+                                    name="email"
+                                    class="form-control"
+                                    placeholder="usuario@dominio.com"
+                                    required
+                                >
+
+                            </div>
+
+                            <!-- Contraseña -->
+                            <div class="form-group">
+
+                                <label for="pass" class="font-weight-bold small">
+                                    Contraseña
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="pass"
+                                    name="password"
+                                    class="form-control"
+                                    minlength="8"
+                                    maxlength="20"
+                                    placeholder="Ingresa tu contraseña"
+                                    required
+                                >
+
+                            </div>
+
+                            <!-- Botón -->
+                            <a
+                                class="btn btn-success btn-block font-weight-bold py-2"
+                                href="Inicio.html"
+                            >
+                                Iniciar sesión
+                            </a>
+
+                        </form>
+
+                        <!-- Regresar -->
+                        <div class="text-center mt-4">
+
+                            <a href="index.html" class="text-muted small">
+                                &larr; Regresar al inicio
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Pie -->
+                <p class="text-center text-muted small mt-4">
+                    &copy; 2026 Institución educativa. Todos los derechos reservados.
+                </p>
+
             </div>
-          </p >
-      <a class="btn btn-outline-success" href="Inicio.html">
-        Aceptar
-      </a>
-    </div>
-  </main>
 
+        </div>
 
+    </main>
 
-  <!-- Dependencias requeridas por Bootstrap 4.4.1: jQuery, Popper y Bootstrap -->
-  <script src="../js/jquery.min.js"></script>
-  <script src="../js/popper.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="../js/main.js"></script>
+    <!-- Dependencias Bootstrap 4.4.1 -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/main.js"></script>
+
 </body>
+```
 </html>

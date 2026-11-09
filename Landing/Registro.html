@@ -9,69 +9,143 @@
   <link rel="stylesheet" href="../css/mdb.min.css">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-  <main>               
-    <!-- Hero -->
-     <div class="container">
-        <div class="modal-body text-center">
-          <img src="images/log icon.png" style="width: 50%;">
-          <p>
-            <div class="row">
-              <div class="col-lg-4">
-                <label for="nombre" class="form-label fw-bold small">Nombre:</label>
-              </div>
-              <div class="col-lg-8">                
-                <input type="texto" id="nombre" name="nombre" class="form-control" placeholder="Nombre" required autofocus>
-              </div>
-              <div class="col-lg-4">
-                <label for="nombre" class="form-label fw-bold small">Semestre:</label>
-              </div>
-              <div class="col-lg-8">                
-                <input type="texto" id="nombre" name="nombre" class="form-control" placeholder="Semestre" required autofocus>
-              </div>
-              <div class="col-lg-4">
-                <label for="nombre" class="form-label fw-bold small">Carrera:</label>
-              </div>
-              <div class="col-lg-8">                
-                <input type="texto" id="nombre" name="nombre" class="form-control" placeholder="Carrera" required autofocus>
-              </div>                                                           
-              <div class="col-lg-4"> 
-                <label for ="correo" class="form-label fw-bold small">Correo:</label>
-              </div>  
-              <div class="col-lg-8"> 
-                <input type="email" id="correo" name="email" class="form-control" placeholder="usuario@dominio.com" required>                          
-              </div>
-              <div class="col-lg-4">
-                <label for="pass" class="form-label fw-bold small">Contraseña:</label>
-              </div>
-              <div class="col-lg-8">
-                <input type="password" id="pass" name="password" class="form-control" minlength="8" maxlength="20" required placeholder="Inserte su contraseña"> 
-              </div>
-              <div class="col-lg-4">
-                <label for="telefono" class="forma-label fw-bold small">Teléfono (tel):</label>
-              </div>
-              <div class="col-lg-8">
-                <input type="tel" idi="telefono" name="telefono" class="form-control" pattern="[0-9]{10}" placeholder="10 dígitos numéricos">
-              </div>  
-              <div class="col-lg-4">
-                <label for="telefono" class="forma-label fw-bold small">Matricula/ORTID:</label>
-              </div>
-              <div class="col-lg-8">
-                <input type="tel" idi="telefono" name="telefono" class="form-control" pattern="[0-9]{10}" placeholder="Insertar">
-              </div>                               
+```html
+<body class="bg-light">
+  <main class="container min-vh-100 d-flex align-items-center justify-content-center">
+
+    <div class="row justify-content-center w-100">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+
+        <div class="card shadow border-0 rounded-lg">
+          <div class="card-body p-4 p-md-5">
+
+            <!-- Logo y encabezado -->
+            <div class="text-center mb-4">
+              <img src="images/log icon.png"
+                   class="img-fluid mb-3"
+                   style="max-width: 180px;"
+                   alt="Logo institucional">
+
+              <h4 class="font-weight-bold">Registro de usuario</h4>
+              <p class="text-muted small">
+                Completa los siguientes datos para crear tu cuenta.
+              </p>
             </div>
-          </p >
-          <a class="btn btn-outline-success" href="Inicio.html">
-            Aceptar
-          </a>
+
+            <!-- Formulario -->
+            <form action="Inicio.html" method="post">
+
+              <div class="form-row">
+
+                <!-- Nombre -->
+                <div class="col-12 mb-3">
+                  <label for="nombre" class="font-weight-bold small">
+                    Nombre completo:
+                  </label>
+                  <input type="text" id="nombre" name="nombre"
+                         class="form-control"
+                         placeholder="Ingresa tu nombre completo"
+                         required autofocus>
+                </div>
+
+                <!-- Semestre -->
+                <div class="col-md-6 mb-3">
+                  <label for="semestre" class="font-weight-bold small">
+                    Semestre:
+                  </label>
+                  <input type="text" id="semestre" name="semestre"
+                         class="form-control"
+                         placeholder="Ej. 4° semestre"
+                         required>
+                </div>
+
+                <!-- Carrera -->
+                <div class="col-md-6 mb-3">
+                  <label for="carrera" class="font-weight-bold small">
+                    Carrera:
+                  </label>
+                  <input type="text" id="carrera" name="carrera"
+                         class="form-control"
+                         placeholder="Ingresa tu carrera"
+                         required>
+                </div>
+
+                <!-- Correo -->
+                <div class="col-12 mb-3">
+                  <label for="correo" class="font-weight-bold small">
+                    Correo electrónico:
+                  </label>
+                  <input type="email" id="correo" name="email"
+                         class="form-control"
+                         placeholder="usuario@dominio.com"
+                         required>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="col-md-6 mb-3">
+                  <label for="pass" class="font-weight-bold small">
+                    Contraseña:
+                  </label>
+                  <input type="password" id="pass" name="password"
+                         class="form-control"
+                         minlength="8" maxlength="20"
+                         placeholder="Ingresa tu contraseña"
+                         required>
+                </div>
+
+                <!-- Teléfono -->
+                <div class="col-md-6 mb-3">
+                  <label for="telefono" class="font-weight-bold small">
+                    Teléfono:
+                  </label>
+                  <input type="tel" id="telefono" name="telefono"
+                         class="form-control"
+                         pattern="[0-9]{10}"
+                         maxlength="10"
+                         placeholder="10 dígitos numéricos"
+                         required>
+                </div>
+
+                <!-- Matrícula -->
+                <div class="col-12 mb-4">
+                  <label for="matricula" class="font-weight-bold small">
+                    Matrícula / ORTID:
+                  </label>
+                  <input type="text" id="matricula" name="matricula"
+                         class="form-control"
+                         placeholder="Ingresa tu matrícula"
+                         required>
+                </div>
+
+              </div>
+
+              <!-- Botones -->
+              <a type="submit" class="btn btn-success btn-block font-weight-bold" href="Inicio.html">
+                Registrarse
+              </a>
+
+              <div class="text-center mt-3">
+                <a href="Inicio.html" class="text-muted small">
+                  Regresar al inicio
+                </a>
+              </div>
+
+            </form>
+
+          </div>
         </div>
-      </div>                
+
+      </div>
+    </div>
+
   </main>
 
-  <!-- Dependencias requeridas por Bootstrap 4.4.1: jQuery, Popper y Bootstrap -->
+  <!-- Dependencias Bootstrap 4.4.1 -->
   <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/main.js"></script>
+
 </body>
+
 </html>
