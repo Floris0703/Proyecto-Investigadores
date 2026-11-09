@@ -1,9 +1,9 @@
 :root {
-  --brand: #2457a6;
-  --brand-dark: #173b72;
+  --brand: #acce22;
+  --brand-dark: #99b81e;
   --ink: #172338;
   --muted: #687588;
-  --surface: #f4f7fb;
+  --surface: #eeeff0;
   --line: #e3e9f1;
 }
 
@@ -53,7 +53,7 @@ section[id] { scroll-margin-top: 78px; }
 .institution-block p { color: var(--muted); line-height: 1.8; }
 .access-section { background: var(--brand-dark); color: #fff; padding: 42px 0; }
 .access-section p { color: rgba(255,255,255,.78); }
-.footer { background: #111d30; color: #c1cada; padding: 55px 0 20px; }
+.footer { background: #1c2026; color: #c1cada; padding: 55px 0 20px; }
 .footer-brand { color: #fff; font-size: 1.35rem; font-weight: 800; }
 .footer-brand:hover { color: #fff; text-decoration: none; }
 .footer h2 { color: #fff; }
