@@ -1,0 +1,450 @@
+<?php
+// Datos demostrativos hasta integrar SQL Server por sesión.
+$tituloPagina = 'Mi perfil';
+$paginaActiva = 'perfil.php';
+?>
+
+<?php require __DIR__ . "/../includes/profesor_header.php"; ?>
+
+
+    <!-- Contenido principal -->
+    <main class="container-fluid mt-4 px-3 px-md-4">
+
+        <!-- Encabezado del módulo -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+            <div class="mb-3 mb-md-0">
+                <h3 class="mb-1">Mi perfil académico</h3>
+                <p class="text-muted mb-0">
+                    Información personal y trayectoria del investigador
+                </p>
+            </div>
+
+            <button type="button" class="btn btn-outline-primary"
+                data-toggle="modal"
+                data-target="#modalEditarPerfil">
+                <i class="fas fa-edit mr-2"></i>
+                Editar perfil
+            </button>
+
+        </div>
+
+        <div class="row">
+
+            <!-- Columna principal -->
+            <section class="col-12 col-lg-8">
+
+                <!-- Tarjeta de identidad -->
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-success text-dark">
+                        <h4 class="mb-1">
+                            Perfil académico
+                        </h4>
+                        <small>
+                            Tecnológico de Estudios Superiores de Coacalco
+                        </small>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="media align-items-center mb-3">
+
+                            <div class="rounded-circle bg-light p-3 mr-3">
+                                <i class="fas fa-user fa-2x text-secondary"></i>
+                            </div>
+
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-1">
+                                    José Luis Camacho Campero
+                                </h5>
+
+                                <p class="text-muted mb-0">
+                                    Docente investigador
+                                </p>
+
+                                <small class="text-muted">
+                                    Ingeniería en Sistemas Computacionales
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="mb-3">
+                            Información académica
+                        </h5>
+
+                        <div class="row">
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <strong>Correo institucional:</strong>
+                                <p class="text-muted mb-0">
+                                    jose@tesco.edu.mx
+                                </p>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <strong>Horario de atención:</strong>
+                                <p class="text-muted mb-0">
+                                    9:00 am - 12:00 pm
+                                </p>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <strong>ORCID:</strong>
+                                <p class="text-muted mb-0">
+                                    999898989 (ejemplo)
+                                </p>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <strong>Ubicación:</strong>
+                                <p class="text-muted mb-0">
+                                    CCAI
+                                </p>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <strong>Área académica:</strong>
+                                <p class="text-muted mb-0">
+                                    Ingeniería en Sistemas Computacionales
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Trayectoria académica -->
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-graduation-cap text-success mr-2"></i>
+                            Trayectoria académica
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <p class="text-muted">
+                            Consulta la formación, experiencia y antecedentes
+                            académicos del investigador.
+                        </p>
+
+                        <div class="list-group list-group-flush">
+
+                            <div class="list-group-item px-0">
+                                <h6 class="mb-1">
+                                    <i class="fas fa-university mr-2 text-secondary"></i>
+                                    Formación académica
+                                </h6>
+
+                                <p class="text-muted mb-0">
+                                    Información pendiente de registrar.
+                                </p>
+                            </div>
+
+                            <div class="list-group-item px-0">
+                                <h6 class="mb-1">
+                                    <i class="fas fa-chalkboard-teacher mr-2 text-secondary"></i>
+                                    Experiencia docente
+                                </h6>
+
+                                <p class="text-muted mb-0">
+                                    Información pendiente de registrar.
+                                </p>
+                            </div>
+
+                            <div class="list-group-item px-0">
+                                <h6 class="mb-1">
+                                    <i class="fas fa-flask mr-2 text-secondary"></i>
+                                    Experiencia en investigación
+                                </h6>
+
+                                <p class="text-muted mb-0">
+                                    Información pendiente de registrar.
+                                </p>
+                            </div>
+
+                            <div class="list-group-item px-0">
+                                <h6 class="mb-1">
+                                    <i class="fas fa-award mr-2 text-secondary"></i>
+                                    Reconocimientos académicos
+                                </h6>
+
+                                <p class="text-muted mb-0">
+                                    Información pendiente de registrar.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Columna complementaria -->
+            <aside class="col-12 col-lg-4">
+
+                <!-- Áreas de investigación -->
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-microscope text-success mr-2"></i>
+                            Áreas de investigación
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <p class="text-muted">
+                            Áreas académicas relacionadas con la actividad
+                            del investigador.
+                        </p>
+
+                        <span class="badge badge-success p-2 mb-2 mr-1">
+                            SIC
+                        </span>
+
+                        <span class="badge badge-success p-2 mb-2 mr-1">
+                            IGE
+                        </span>
+
+                        <span class="badge badge-success p-2 mb-2 mr-1">
+                            TICS
+                        </span>
+
+                        <hr>
+
+                        <h6>Líneas de investigación</h6>
+
+                        <p class="text-muted mb-0">
+                            Información pendiente de registrar.
+                        </p>
+
+                    </div>
+                </div>
+
+                <!-- Información de contacto -->
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-address-card text-success mr-2"></i>
+                            Contacto académico
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <p class="mb-2">
+                            <i class="fas fa-envelope mr-2 text-secondary"></i>
+                            jose@tesco.edu.mx
+                        </p>
+
+                        <p class="mb-2">
+                            <i class="fas fa-map-marker-alt mr-2 text-secondary"></i>
+                            CCAI
+                        </p>
+
+                        <p class="mb-0">
+                            <i class="fas fa-clock mr-2 text-secondary"></i>
+                            9:00 am - 12:00 pm
+                        </p>
+
+                    </div>
+                </div>
+
+                <!-- Acceso a módulos -->
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            Actividad académica
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <p class="text-muted">
+                            Consulta los demás apartados del investigador.
+                        </p>
+
+                        <div class="list-group">
+
+                            <a href="proyectos.php"
+                                class="list-group-item list-group-item-action">
+                                <i class="fas fa-project-diagram mr-2"></i>
+                                Proyectos
+                            </a>
+
+                            <a href="publicaciones.php"
+                                class="list-group-item list-group-item-action">
+                                <i class="fas fa-book-open mr-2"></i>
+                                Publicaciones
+                            </a>
+
+                            <a href="congresos.php"
+                                class="list-group-item list-group-item-action">
+                                <i class="fas fa-globe-americas mr-2"></i>
+                                Congresos
+                            </a>
+
+                            <a href="titulacion.php"
+                                class="list-group-item list-group-item-action">
+                                <i class="fas fa-graduation-cap mr-2"></i>
+                                Titulación
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- Modal de edición -->
+    <div class="modal fade" id="modalEditarPerfil"
+        tabindex="-1" role="dialog"
+        aria-labelledby="tituloEditarPerfil"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-dark">
+                    <h5 class="modal-title" id="tituloEditarPerfil">
+                        Editar perfil académico
+                    </h5>
+
+                    <button type="button" class="close text-white"
+                        data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+
+                        <div class="form-group">
+                            <label for="nombreProfesor">
+                                Nombre completo
+                            </label>
+
+                            <input type="text" class="form-control"
+                                id="nombreProfesor"
+                                value="José Luis Camacho Campero">
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="correoProfesor">
+                                    Correo institucional
+                                </label>
+
+                                <input type="email" class="form-control"
+                                    id="correoProfesor"
+                                    value="jose@tesco.edu.mx">
+                            </div>
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="orcidProfesor">
+                                    ORCID
+                                </label>
+
+                                <input type="text" class="form-control"
+                                    id="orcidProfesor"
+                                    placeholder="0000-0000-0000-0000">
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="ubicacionProfesor">
+                                    Ubicación
+                                </label>
+
+                                <input type="text" class="form-control"
+                                    id="ubicacionProfesor" value="CCAI">
+                            </div>
+
+                            <div class="form-group col-12 col-md-6">
+                                <label for="horarioProfesor">
+                                    Horario de atención
+                                </label>
+
+                                <input type="text" class="form-control"
+                                    id="horarioProfesor"
+                                    value="9:00 am - 12:00 pm">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="areaProfesor">
+                                Área académica
+                            </label>
+
+                            <input type="text" class="form-control"
+                                id="areaProfesor"
+                                value="Ingeniería en Sistemas Computacionales">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trayectoriaProfesor">
+                                Trayectoria académica
+                            </label>
+
+                            <textarea class="form-control"
+                                id="trayectoriaProfesor"
+                                rows="4"
+                                placeholder="Describe tu formación y experiencia académica..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lineasProfesor">
+                                Líneas de investigación
+                            </label>
+
+                            <textarea class="form-control"
+                                id="lineasProfesor"
+                                rows="3"
+                                placeholder="Describe tus principales líneas de investigación..."></textarea>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="btn btn-primary" disabled>
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar cambios
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+<?php require __DIR__ . "/../includes/profesor_footer.php"; ?>
