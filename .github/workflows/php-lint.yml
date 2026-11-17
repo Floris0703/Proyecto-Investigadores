@@ -1,0 +1,27 @@
+name: PHP syntax validation
+on:
+  push:
+    paths:
+      - 'includes/**/*.php'
+      - 'profesores/**/*.php'
+      - 'tests/**/*.php'
+      - '.github/workflows/php-lint.yml'
+  pull_request:
+    paths:
+      - 'includes/**/*.php'
+      - 'profesores/**/*.php'
+      - 'tests/**/*.php'
+      - '.github/workflows/php-lint.yml'
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP syntax
+        run: |
+          find includes profesores tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Render nine teacher views with a mocked SQLSRV connection
+        run: |
+          for page in index.php perfil.php productividad.php proyectos.php publicaciones.php congresos.php titulacion.php convocatorias.php postulaciones.php; do
+            php tests/profesor_smoke.php "$page"
+          done
