@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "comunicacion_activa": false,
+  "modo": "supervisado",
+  "agentes": {
+    "frontend": true,
+    "backend": true,
+    "base_datos": true,
+    "github": true
+  },
+  "ejecucion_automatica": false,
+  "integracion_automatica_master": false,
+  "limite_intentos": 3
+}
