@@ -3,16 +3,20 @@ on:
   push:
     branches: [master]
     paths:
+      - 'AGENTS.md'
       - '.coordinacion/**'
       - 'docs/CONTRATOS_INTEGRACION.md'
       - '.github/workflows/tesco-coordinacion.yml'
+      - '**/*.sql'
       - 'database/**'
+      - '**/*.php'
       - 'includes/**'
       - 'profesores/**'
       - 'Alumnos/**'
       - 'Landing/**'
   pull_request:
     paths:
+      - 'AGENTS.md'
       - '.coordinacion/**'
       - 'docs/CONTRATOS_INTEGRACION.md'
       - '.github/workflows/tesco-coordinacion.yml'
@@ -61,11 +65,19 @@ jobs:
       - name: Registrar aviso recibido
         if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
+          enabled=$(python3 -c "import json; print(str(json.load(open('.coordinacion/config.json'))['comunicacion_activa']).lower())")
+          if [ "$enabled" != "true" ]; then
+            echo "Coordinación apagada: aviso recibido e ignorado." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$PAYLOAD_SOURCE" != "TESCo-BD" ]; then
+            echo "::warning::Origen no reconocido; aviso ignorado."
+            exit 0
+          fi
           {
             echo "## Aviso recibido de otro repositorio"
-            echo "Repositorio de origen: \`$PAYLOAD_SOURCE\`"
-            echo "Commit de origen: \`$PAYLOAD_SHA\`"
-            echo "Acción: un especialista debe revisar el commit y documentar dependencias."
+            echo "Origen autorizado: TESCo-BD"
+            echo "Acción: un especialista debe revisar las dependencias y documentarlas."
             echo "No se han ejecutado cambios de código."
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Comunicar actualización al repositorio par
