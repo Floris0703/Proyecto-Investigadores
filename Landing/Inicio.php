@@ -2,7 +2,21 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../includes/tesco_landing_datos.php';
 require_once __DIR__ . '/../includes/tesco_auth.php';
-tesco_session_start();
+// Bienvenida protegida: la portada y el login preceden a esta pantalla.
+$roles = tesco_require_login();
+$rolActivo = (string)($_SESSION['tesco_rol_activo'] ?? '');
+$necesitaElegirRol = !in_array($rolActivo, $roles, true);
+$destinoPerfil = $necesitaElegirRol ? 'elegir_rol.php' : 'panel.php';
+$nombreBienvenida = '';
+try {
+    $perfilBienvenida = tesco_db_one(
+        'SELECT TOP (1) Nombre FROM plataforma.PerfilUsuario WHERE UsuarioId=?',
+        [tesco_usuario_actual()]
+    );
+    $nombreBienvenida = trim((string)($perfilBienvenida['Nombre'] ?? ''));
+} catch (Throwable $e) {
+    error_log('TESCo: nombre de bienvenida no disponible');
+}
 $stats = null;
 $convocatorias = [];
 $anunciosError = false;
@@ -17,7 +31,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Plataforma institucional para consultar proyectos, publicaciones y actividades académicas.">
-  <title>Inicio</title>
+  <title>Bienvenida | TESCo Investigadores</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/mdb.min.css">
   <link rel="stylesheet" href="../css/style.css?v=4">
@@ -114,9 +128,21 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
     <section class="section-padding section-muted">
       <div class="container">
         <div class="institution-block">
-          <span class="section-kicker">INVESTIGACIÓN E INNOVACIÓN</span>
-          <h2>El conocimiento también construye comunidad</h2>
-          <p>Esta plataforma busca facilitar el acceso a la información sobre el trabajo académico de la institución, dar visibilidad a sus investigadores y contribuir al seguimiento de sus actividades y resultados.</p>
+          <span class="section-kicker">BIENVENIDA INSTITUCIONAL</span>
+          <h1 class="h2">Bienvenido<?= $nombreBienvenida !== '' ? ', ' . tesco_escape($nombreBienvenida) : '' ?> a TESCo Investigadores</h1>
+          <p>Explora la actividad académica, los proyectos y las convocatorias de la institución. Cuando quieras continuar, entra a tu perfil con los permisos de tu cuenta.</p>
+          <p class="small text-muted mb-3">Rol<?= count($roles) > 1 ? 'es' : '' ?> autorizado<?= count($roles) > 1 ? 's' : '' ?>: <?=tesco_escape(implode(', ', $roles))?></p>
+          <div class="d-flex flex-wrap justify-content-center align-items-center">
+            <a class="btn btn-primary mr-2 mb-2" href="<?=tesco_escape($destinoPerfil)?>">
+              <i class="fas fa-user-circle mr-2" aria-hidden="true"></i><?= $necesitaElegirRol ? 'Elegir rol y entrar a mi perfil' : 'Entrar a mi perfil' ?>
+            </a>
+            <form action="cerrar_sesion.php" method="post" class="mb-2">
+              <input type="hidden" name="csrf" value="<?=tesco_escape(tesco_csrf_public())?>">
+              <button class="btn btn-outline-secondary" type="submit">
+                <i class="fas fa-sign-out-alt mr-2" aria-hidden="true"></i>Cerrar sesión
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
