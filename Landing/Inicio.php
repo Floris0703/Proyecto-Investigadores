@@ -54,8 +54,8 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
                   <a class="nav-link px-2" href="<?=tesco_usuario_actual() ? 'panel.php' : 'acceso.php'?>" aria-label="<?=tesco_usuario_actual() ? 'Mi panel' : 'Iniciar sesión'?>" title="Acceso institucional"><i class="fas fa-user" aria-hidden="true"></i></a>
                 </li>
               </ul>
-              <button class="navbar-toggler d-block ml-2" type="button" data-toggle="modal"
-                      data-target="#menuLateral" aria-label="Abrir menú de navegación"
+              <button class="navbar-toggler d-block ml-2" id="tescoMenuToggle" type="button"
+                      aria-label="Abrir menú de navegación" aria-expanded="false"
                       aria-controls="menuLateral" aria-haspopup="dialog">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -66,47 +66,48 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
     </div>
   </header>
 
-  <!-- Menú lateral institucional, equivalente visual al menú PHP de Profesores -->
-  <div class="modal fade tesco-public-menu" id="menuLateral" tabindex="-1" role="dialog"
-       aria-labelledby="tituloMenuLateral" aria-hidden="true">
-    <div class="modal-dialog m-0 h-100" role="document">
-      <div class="modal-content h-100 rounded-0">
-        <div class="modal-header text-white">
-          <h5 class="modal-title" id="tituloMenuLateral">
-            <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>Investigadores TESCo
-          </h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar menú">
-            <span aria-hidden="true">&times;</span>
-          </button>
+  <!-- Menú público independiente del modal Bootstrap/MDB para evitar desplazar el documento. -->
+  <div id="tescoMenuOverlay" class="tesco-menu-overlay" hidden>
+    <div class="tesco-menu-backdrop" data-menu-close aria-hidden="true"></div>
+    <aside id="menuLateral" class="tesco-menu-panel" role="dialog" aria-modal="true"
+           aria-labelledby="tituloMenuLateral" aria-hidden="true" tabindex="-1">
+      <div class="tesco-menu-header">
+        <h2 class="h5 mb-0" id="tituloMenuLateral">
+          <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>Investigadores TESCo
+        </h2>
+        <button type="button" class="close text-white" data-menu-close aria-label="Cerrar menú">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="tesco-menu-body">
+        <div>
+          <small class="text-uppercase font-weight-bold d-block mb-2 tesco-public-menu-heading">Institucional</small>
+          <nav class="nav flex-column" aria-label="Secciones públicas">
+            <a href="Inicio.php" class="nav-link py-2 mb-1 rounded tesco-public-active" aria-current="page">
+              <i class="fas fa-home mr-2" aria-hidden="true"></i>Inicio
+            </a>
+            <a href="#titulo-indicadores" class="nav-link py-2 mb-1 rounded text-dark" data-menu-close>
+              <i class="fas fa-chart-bar mr-2" aria-hidden="true"></i>Estadísticas
+            </a>
+            <a href="#profesores" class="nav-link py-2 mb-1 rounded text-dark" data-menu-close>
+              <i class="fas fa-project-diagram mr-2" aria-hidden="true"></i>Convocatorias
+            </a>
+            <a href="panel.php" class="nav-link py-2 mb-1 rounded text-dark">
+              <i class="fas fa-chalkboard-teacher mr-2" aria-hidden="true"></i>Acceso al panel
+            </a>
+          </nav>
         </div>
-        <div class="modal-body d-flex flex-column overflow-auto">
-          <div>
-            <small class="text-uppercase font-weight-bold d-block mb-2 tesco-public-menu-heading">Institucional</small>
-            <nav class="nav flex-column" aria-label="Secciones públicas">
-              <a href="Inicio.php" class="nav-link py-2 mb-1 rounded tesco-public-active" aria-current="page">
-                <i class="fas fa-home mr-2" aria-hidden="true"></i>Inicio
-              </a>
-              <a href="#titulo-indicadores" class="nav-link py-2 mb-1 rounded text-dark" data-dismiss="modal">
-                <i class="fas fa-chart-bar mr-2" aria-hidden="true"></i>Estadísticas
-              </a>
-              <a href="#profesores" class="nav-link py-2 mb-1 rounded text-dark" data-dismiss="modal">
-                <i class="fas fa-project-diagram mr-2" aria-hidden="true"></i>Próximos proyectos
-              </a>
-              <a href="panel.php" class="nav-link py-2 mb-1 rounded text-dark">
-                <i class="fas fa-chalkboard-teacher mr-2" aria-hidden="true"></i>Acceso al panel
-              </a>
-            </nav>
-          </div>
-          <div class="mt-auto pt-4">
-            <hr class="tesco-public-menu-divider">
-            <a href="<?=tesco_usuario_actual() ? 'panel.php' : 'acceso.php'?>" class="nav-link text-dark px-0"><i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i><?=tesco_usuario_actual() ? 'Mi panel' : 'Acceso a la plataforma'?></a>
-            <span class="nav-link text-muted px-0" aria-disabled="true">
-              <i class="fas fa-cog mr-2" aria-hidden="true"></i>Configuración (próximamente)
-            </span>
-          </div>
+        <div class="mt-auto pt-4">
+          <hr class="tesco-public-menu-divider">
+          <a href="<?=tesco_usuario_actual() ? 'panel.php' : 'acceso.php'?>" class="nav-link text-dark px-0">
+            <i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i><?=tesco_usuario_actual() ? 'Mi panel' : 'Acceso a la plataforma'?>
+          </a>
+          <span class="nav-link text-muted px-0" aria-disabled="true">
+            <i class="fas fa-cog mr-2" aria-hidden="true"></i>Configuración (próximamente)
+          </span>
         </div>
       </div>
-    </div>
+    </aside>
   </div>
   <main>
         <!-- Institucional -->
@@ -293,5 +294,6 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/landing-menu.js"></script>
 </body>
 </html>
