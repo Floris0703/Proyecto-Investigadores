@@ -163,3 +163,71 @@ body.tesco-menu-open { overflow: hidden !important; }
 
 /* Suavizado ligero de la ilustración de portada sin afectar al texto ni los controles. */
 .tesco-portada-imagen { filter: blur(2px); }
+
+
+/* Treemap institucional: cada área es proporcional al conteo real en SQL Server. */
+.tesco-treemap {
+  position: relative;
+  height: 430px;
+  min-height: 330px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #e9edf3;
+  box-shadow: 0 6px 20px rgba(18, 28, 103, .08);
+}
+.tesco-treemap-celda {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  overflow: hidden;
+  color: #fff;
+  transition: filter .18s ease;
+}
+.tesco-treemap-celda:hover { filter: brightness(1.12); }
+.tesco-treemap-celda.tesco-treemap-oscura .tesco-treemap-nombre,
+.tesco-treemap-celda.tesco-treemap-oscura .tesco-treemap-detalle {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .45);
+}
+.tesco-treemap-interior {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.tesco-treemap-nombre {
+  display: block;
+  font-size: clamp(.8rem, 1.45vw, 1.15rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.tesco-treemap-detalle { font-size: .85rem; font-weight: 600; }
+.tesco-treemap-compacta .tesco-treemap-interior { padding: 5px; gap: 2px; }
+.tesco-treemap-compacta .tesco-treemap-nombre { font-size: .7rem; line-height: 1.05; }
+.tesco-treemap-compacta .tesco-treemap-detalle { display: none; }
+@media (max-width: 575.98px) {
+  .tesco-treemap { height: 390px; }
+  .tesco-treemap-interior { padding: 7px; }
+  .tesco-treemap-detalle { font-size: .72rem; }
+}
+
+
+/* Portada: botones sólidos que cambian a outline al pasar el cursor o enfocarse. */
+.hero-actions .tesco-hero-btn,
+.hero-actions .tesco-hero-btn:visited {
+  background-color: #ACCE22 !important;
+  border: 2px solid #ACCE22 !important;
+  color: #172338 !important;
+  box-shadow: none !important;
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.hero-actions .tesco-hero-btn:hover,
+.hero-actions .tesco-hero-btn:focus-visible {
+  background-color: transparent !important;
+  border-color: #89a51c !important;
+  color: #55700e !important;
+  box-shadow: none !important;
+}

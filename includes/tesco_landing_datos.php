@@ -21,6 +21,74 @@ function tesco_landing_metricas(): array {
     ];
 }
 
+/**
+ * Recuento de producción académica por tipo, sin duplicar entidades.
+ * Cada proyecto, producto o actividad aparece en una sola categoría.
+ * No incluye profesores, alumnos, postulaciones ni convocatorias:
+ * no son productos académicos.
+ */
+function tesco_landing_treemap_produccion(): array {
+    $rows = tesco_db_rows(
+        "SELECT 'proyectos' AS Categoria, COUNT_BIG(*) AS Cantidad
+         FROM academico.Proyecto
+         UNION ALL
+         SELECT CASE UPPER(LTRIM(RTRIM(pub.TipoPublicacion)))
+              WHEN 'ARTICULO' THEN 'articulos'
+              WHEN 'LIBRO' THEN 'libros'
+              WHEN 'CAPITULO' THEN 'capitulos'
+              ELSE 'otras_publicaciones' END AS Categoria,
+              COUNT_BIG(*) AS Cantidad
+         FROM academico.Publicacion pub
+         GROUP BY CASE UPPER(LTRIM(RTRIM(pub.TipoPublicacion)))
+              WHEN 'ARTICULO' THEN 'articulos'
+              WHEN 'LIBRO' THEN 'libros'
+              WHEN 'CAPITULO' THEN 'capitulos'
+              ELSE 'otras_publicaciones' END
+         UNION ALL
+         SELECT CASE WHEN UPPER(LTRIM(RTRIM(tp.Nombre)))='TITULACION'
+              THEN 'titulaciones' ELSE 'otros_productos' END AS Categoria,
+              COUNT_BIG(*) AS Cantidad
+         FROM academico.Producto p
+         JOIN academico.TipoProducto tp ON tp.TipoProductoId=p.TipoProductoId
+         LEFT JOIN academico.Publicacion pub ON pub.ProductoId=p.ProductoId
+         WHERE pub.ProductoId IS NULL
+         GROUP BY CASE WHEN UPPER(LTRIM(RTRIM(tp.Nombre)))='TITULACION'
+              THEN 'titulaciones' ELSE 'otros_productos' END
+         UNION ALL
+         SELECT 'congresos' AS Categoria, COUNT_BIG(*) AS Cantidad
+         FROM academico.Congreso
+         UNION ALL
+         SELECT 'otras_actividades' AS Categoria, COUNT_BIG(*) AS Cantidad
+         FROM academico.ActividadAcademica a
+         LEFT JOIN academico.Congreso c ON c.ActividadId=a.ActividadId
+         WHERE c.ActividadId IS NULL"
+    );
+
+    $catalogo = [
+        'proyectos' => 'Proyectos',
+        'articulos' => 'Artículos',
+        'libros' => 'Libros',
+        'capitulos' => 'Capítulos de libro',
+        'otras_publicaciones' => 'Otras publicaciones',
+        'titulaciones' => 'Trabajos de titulación',
+        'otros_productos' => 'Otros productos',
+        'congresos' => 'Congresos',
+        'otras_actividades' => 'Otras actividades académicas'
+    ];
+    $counts=array_fill_keys(array_keys($catalogo),0);
+    foreach ($rows as $row) {
+        $key=(string)($row['Categoria']??'');
+        if (array_key_exists($key,$counts)) $counts[$key]+=(int)($row['Cantidad']??0);
+    }
+    $out=[];
+    foreach ($catalogo as $key=>$label) {
+        if ($counts[$key]>0) $out[]=['id'=>$key,'nombre'=>$label,'cantidad'=>$counts[$key]];
+    }
+    usort($out,static fn(array $a,array $b): int =>
+        ($b['cantidad']<=>$a['cantidad']) ?: strcmp($a['id'],$b['id']));
+    return $out;
+}
+
 /** Solo publicadas y vigentes; BORRADOR y CERRADA no aparecen. */
 function tesco_landing_convocatorias(int $limit = 6): array {
     $limit = max(1, min($limit, 12));
@@ -35,17 +103,54 @@ function tesco_landing_convocatorias(int $limit = 6): array {
          ORDER BY c.FechaPublicacion DESC,c.ConvocatoriaId DESC"
     );
 }
+/** Detalle de una convocatoria vigente: datos públicos del proyecto, docente y requisitos. */
 function tesco_landing_convocatoria(int $id): ?array {
     if ($id < 1) return null;
     return tesco_db_one(
-        "SELECT c.ConvocatoriaId,c.Titulo,c.Descripcion,c.FechaPublicacion,c.FechaCierre
+        "SELECT c.ConvocatoriaId,c.Titulo,c.Descripcion,c.Requisitos,
+                c.FechaPublicacion,c.FechaInicioRecepcion,c.FechaCierre,
+                c.CupoTotal,c.HorarioColaboracion,c.UrlInformacion,
+                tc.Nombre AS TipoConvocatoria,
+                p.Titulo AS ProyectoTitulo,
+                COALESCE(NULLIF(LTRIM(RTRIM(CONCAT(pf.Nombre,' ',pf.ApellidoPaterno,' ',pf.ApellidoMaterno))),''),N'Docente investigador') AS Profesor,
+                pr.Departamento AS DepartamentoProfesor,
+                pr.GradoAcademico AS GradoAcademicoProfesor
          FROM academico.Convocatoria c
+         LEFT JOIN academico.TipoConvocatoria tc ON tc.TipoConvocatoriaId=c.TipoConvocatoriaId
+         LEFT JOIN academico.Proyecto p ON p.ProyectoId=c.ProyectoId
+         LEFT JOIN academico.Profesor pr ON pr.UsuarioId=c.UsuarioPublicadorId
+         LEFT JOIN plataforma.PerfilUsuario pf ON pf.UsuarioId=c.UsuarioPublicadorId
          WHERE c.ConvocatoriaId=?
            AND c.Estado IN ('PUBLICADA','ABIERTA')
            AND c.FechaPublicacion IS NOT NULL
            AND c.FechaPublicacion <= SYSDATETIME()
            AND (c.FechaCierre IS NULL OR c.FechaCierre >= SYSDATETIME())",
         [$id]
+    );
+}
+
+/** Habilidades que el docente solicita para esta convocatoria (migración 004). */
+function tesco_landing_habilidades_convocatoria(int $id): array {
+    if ($id < 1) return [];
+    return tesco_db_rows(
+        "SELECT h.Nombre AS Habilidad,n.Nombre AS NivelMinimo,ch.EsObligatoria
+         FROM academico.ConvocatoriaHabilidad ch
+         JOIN academico.Habilidad h ON h.HabilidadId=ch.HabilidadId
+         JOIN academico.NivelDominio n ON n.NivelDominioId=ch.NivelMinimoId
+         WHERE ch.ConvocatoriaId=?
+         ORDER BY ch.EsObligatoria DESC,h.Nombre",
+        [$id]
+    );
+}
+
+/** Estado de la solicitud del usuario actual, sin exponer datos de otras cuentas. */
+function tesco_landing_mi_postulacion(int $id,int $usuarioId): ?array {
+    if ($id < 1 || $usuarioId < 1) return null;
+    return tesco_db_one(
+        "SELECT PostulacionId,Estado,FechaPostulacion
+         FROM academico.Postulacion
+         WHERE ConvocatoriaId=? AND UsuarioId=?",
+        [$id,$usuarioId]
     );
 }
 function tesco_landing_fecha(mixed $value): string {
