@@ -116,12 +116,12 @@ function tesco_logout_local(): void {
 }
 function tesco_require_login(): array {
     if (!tesco_usuario_actual()) {
-        header('Location: acceso.php', true, 303);
+        header('Location: login.php', true, 303);
         exit;
     }
     $roles = tesco_roles_actuales();
     if (!$roles) {
-        header('Location: acceso.php', true, 303);
+        header('Location: login.php', true, 303);
         exit;
     }
     header('Cache-Control: private, no-store');
@@ -135,11 +135,9 @@ function tesco_require_role(string $role): void {
     }
 }
 function tesco_redirect_post_login(): never {
-    $roles = tesco_require_login();
-    if (count($roles) > 1 && !in_array($_SESSION['tesco_rol_activo'] ?? null, $roles, true)) {
-        header('Location: elegir_rol.php', true, 303);
-    } else {
-        header('Location: panel.php', true, 303);
-    }
+    // La bienvenida es obligatoria antes de entrar al panel del rol.
+    // En cuentas con múltiples roles se elegirá el rol después de la bienvenida.
+    tesco_require_login();
+    header('Location: Inicio.php', true, 303);
     exit;
 }
