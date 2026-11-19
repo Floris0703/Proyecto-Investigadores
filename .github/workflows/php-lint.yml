@@ -43,3 +43,5 @@ jobs:
           for page in index.php perfil.php usuarios.php convocatorias.php postulaciones.php habilidades.php produccion.php; do
             php tests/admin_smoke.php "$page"
           done
+      - name: Validate critical ADMIN authorization invariants
+        run: php tests/admin_logic.php
