@@ -1,0 +1,111 @@
+name: TESCo coordinación entre repositorios
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'AGENTS.md'
+      - '.coordinacion/**'
+      - 'docs/CONTRATOS_INTEGRACION.md'
+      - '.github/workflows/tesco-coordinacion.yml'
+      - '**/*.sql'
+      - 'database/**'
+      - '**/*.php'
+      - 'includes/**'
+      - 'profesores/**'
+      - 'Alumnos/**'
+      - 'Landing/**'
+  pull_request:
+    paths:
+      - 'AGENTS.md'
+      - '.coordinacion/**'
+      - 'docs/CONTRATOS_INTEGRACION.md'
+      - '.github/workflows/tesco-coordinacion.yml'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [tesco_context_update]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tesco-coordinacion-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  validar-y-notificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TARGET_REPO: 'Floris0703/DB-InvestigadoresTESCo'
+      COORDINATION_TOKEN: ${{ secrets.TESCO_COORDINATION_TOKEN }}
+      EVENT_NAME: ${{ github.event_name }}
+      SOURCE_REPO: ${{ github.repository }}
+      SOURCE_SHA: ${{ github.sha }}
+      PAYLOAD_SOURCE: ${{ github.event.client_payload.source_repo }}
+      PAYLOAD_SHA: ${{ github.event.client_payload.source_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar configuración y tareas
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.coordinacion')
+          c=json.loads((root/'config.json').read_text(encoding='utf-8'))
+          assert isinstance(c.get('comunicacion_activa'),bool), 'Interruptor inválido'
+          assert c.get('ejecucion_automatica') is False, 'No se permite ejecución autónoma'
+          assert c.get('integracion_automatica_master') is False, 'No se permite merge automático'
+          for path in sorted((root/'tareas').glob('*.json')):
+              t=json.loads(path.read_text(encoding='utf-8'))
+              for key in ('id','titulo','agente_destino','repositorio_origen','estado','criterios_aceptacion'):
+                  assert key in t, f'{path}: falta {key}'
+              assert t['agente_destino'] in ('frontend','backend','base_datos','github'), f'{path}: agente inválido'
+              assert t['estado'] in ('propuesta','pendiente','en_progreso','bloqueada','completada','cancelada'), f'{path}: estado inválido'
+          print('Configuración y tareas válidas')
+          PY
+      - name: Registrar aviso recibido
+        if: ${{ github.event_name == 'repository_dispatch' }}
+        run: |
+          enabled=$(python3 -c "import json; print(str(json.load(open('.coordinacion/config.json'))['comunicacion_activa']).lower())")
+          if [ "$enabled" != "true" ]; then
+            echo "Coordinación apagada: aviso recibido e ignorado." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$PAYLOAD_SOURCE" != "TESCo-BD" ]; then
+            echo "::warning::Origen no reconocido; aviso ignorado."
+            exit 0
+          fi
+          {
+            echo "## Aviso recibido de otro repositorio"
+            echo "Origen autorizado: TESCo-BD"
+            echo "Acción: un especialista debe revisar las dependencias y documentarlas."
+            echo "No se han ejecutado cambios de código."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Comunicar actualización al repositorio par
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          if [ "$(python3 -c "import json; print(str(json.load(open('.coordinacion/config.json'))['comunicacion_activa']).lower())")" != "true" ]; then
+            echo "Coordinación apagada: no se envía notificación" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ -z "$COORDINATION_TOKEN" ]; then
+            echo "::warning::Falta secreto TESCO_COORDINATION_TOKEN; no se envía notificación"
+            echo "Pendiente configurar el token de comunicación." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          payload=$(python3 - <<'PY'
+          import json,os
+          print(json.dumps({"event_type":"tesco_context_update","client_payload":{
+            "source_repo":os.environ["SOURCE_REPO"],
+            "source_sha":os.environ["SOURCE_SHA"],
+            "change_type":"push_master"
+          }}))
+          PY
+          )
+          curl --fail-with-body --silent --show-error --retry 2 \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $COORDINATION_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$TARGET_REPO/dispatches" \
+            --data "$payload"
+          echo "Notificación enviada a $TARGET_REPO; no se ejecuta código remoto." >> "$GITHUB_STEP_SUMMARY"

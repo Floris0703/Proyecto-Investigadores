@@ -1,0 +1,14 @@
+{
+  "id": "TESCO-APP-0001",
+  "titulo": "Verificar comunicación de coordinación",
+  "agente_destino": "backend",
+  "repositorio_origen": "Floris0703/Proyecto-Investigadores",
+  "estado": "propuesta",
+  "prioridad": "baja",
+  "dependencias": [],
+  "criterios_aceptacion": [
+    "El workflow valida la tarea",
+    "Se registra un resumen en GitHub Actions"
+  ],
+  "requiere_aprobacion": true
+}
