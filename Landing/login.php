@@ -30,8 +30,7 @@ header('Cache-Control: no-store');
       position: fixed;
       inset: -8px;
       z-index: 0;
-      background: linear-gradient(rgba(14, 24, 62, .55), rgba(14, 24, 62, .55)),
-                  url('images/tesco%20banderas.jpeg') center center / cover no-repeat;
+      background: url('images/tesco%20banderas.jpeg') center center / cover no-repeat;
       filter: blur(3px);
       pointer-events: none;
     }
