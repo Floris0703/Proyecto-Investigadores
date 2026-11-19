@@ -18,10 +18,13 @@ try {
     error_log('TESCo: nombre de bienvenida no disponible');
 }
 $stats = null;
+$produccionTreemap = null;
 $convocatorias = [];
 $anunciosError = false;
 try { $stats = tesco_landing_metricas(); }
 catch (Throwable $e) { error_log('TESCo: métricas públicas no disponibles'); }
+try { $produccionTreemap = tesco_landing_treemap_produccion(); }
+catch (Throwable $e) { error_log('TESCo: producción del treemap no disponible'); }
 try { $convocatorias = tesco_landing_convocatorias(6); }
 catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'); $anunciosError = true; }
 ?>
@@ -174,98 +177,48 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
           <?php endforeach; ?>
         </div>
       </div>
-    <style>
-      .news-tile {
-    position: relative;
-    overflow: hidden;
-    height: 100%;
-}
-
-.news-tile img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-    </style>
-    <!-- Producción académica -->
-      <div class="container">
-
-<div class="row">
-
-    <!-- ARTÍCULOS: columna izquierda -->
-    <div class="col-lg-8 col-md-12 mb-4">
-        <div class="news-tile view zoom z-depth-1 h-100">
-            <a href="Historia.html" class="text-white">
-                <img src="images/art inv.webp" class="img-fluid w-100" alt="Artículos">
-
-                <div class="mask rgba-stylish-strong">
-                    <div class="text-white text-center py-lg-5 py-0 my-0">
-                        <h4 class="card-title font-weight-bold">
-                            <strong>Artículos</strong>
-                        </h4>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- COLUMNA DERECHA -->
-    <div class="col-lg-4 col-md-12 mb-4 d-flex flex-column">
-
-        <!-- CONGRESOS -->
-        <div class="news-tile view zoom z-depth-1 flex-fill mb-3">
-            <a href="Ofrendas.html" class="text-white">
-                <img src="images/congrsos.jpg" class="img-fluid w-100" alt="Congresos">
-
-                <div class="mask rgba-stylish-strong">
-                    <div class="text-white text-center py-lg-5 py-0 my-0">
-                        <h4 class="card-title font-weight-bold">
-                            <strong>Congresos</strong>
-                        </h4>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- LIBROS Y TITULADOS -->
-        <div class="row flex-fill">
-
-            <div class="col-6">
-                <div class="news-tile view zoom z-depth-1 h-100">
-                    <a href="Vestimenta.html" class="text-white">
-                        <img src="images/libros.jpg" class="img-fluid w-100" alt="Libros">
-
-                        <div class="mask rgba-stylish-strong">
-                            <div class="text-white text-center py-lg-5 py-0 my-0">
-                                <h4 class="card-title font-weight-bold">
-                                    <strong>Libros</strong>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-6">
-                <div class="news-tile view zoom z-depth-1 h-100">
-                    <a href="Artesania.html" class="text-white">
-                        <img src="images/tesis.jpg" class="img-fluid w-100" alt="Titulados">
-
-                        <div class="mask rgba-stylish-strong">
-                            <div class="text-white text-center py-lg-5 py-0 my-0">
-                                <h4 class="card-title font-weight-bold">
-                                    <strong>Titulados</strong>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
+    <!-- Treemap: área de cada rectángulo proporcional a producción académica en BD. -->
+    <div class="container mt-4">
+      <div class="section-heading mb-3">
+        <span class="section-kicker">PRODUCCIÓN ACADÉMICA</span>
+        <h3 class="h4 mb-2">Distribución por tipo de producción</h3>
+        <p>El área representa la proporción de registros institucionales por categoría; no es una puntuación de calidad ni participación de mercado.</p>
       </div>
+      <?php if ($produccionTreemap === null): ?>
+        <div class="alert alert-warning" role="status">No fue posible consultar la distribución de producción académica.</div>
+      <?php elseif (!$produccionTreemap): ?>
+        <div class="alert alert-light border" role="status">Todavía no hay producción académica registrada para mostrar.</div>
+      <?php else: ?>
+        <?php
+          $totalProduccion = array_sum(array_column($produccionTreemap,'cantidad'));
+          $treemapJson = json_encode(
+              $produccionTreemap,
+              JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_THROW_ON_ERROR
+          );
+        ?>
+        <div class="tesco-treemap-resumen d-flex flex-wrap justify-content-between align-items-center mb-3">
+          <span class="font-weight-bold"><i class="fas fa-chart-area text-success mr-2" aria-hidden="true"></i><?=number_format($totalProduccion,0,',','.')?> registros de producción</span>
+          <span class="small text-muted">Porcentajes calculados sobre el total registrado</span>
+        </div>
+        <div id="tescoTreemap" class="tesco-treemap" role="img" aria-label="Mapa de áreas proporcionales de producción académica. La distribución detallada aparece debajo."></div>
+        <div class="tesco-treemap-leyenda mt-3" aria-label="Detalle por categoría">
+          <div class="row">
+            <?php foreach ($produccionTreemap as $i=>$tipo): ?>
+              <div class="col-12 col-sm-6 col-lg-4 mb-2">
+                <div class="d-flex align-items-center">
+                  <span class="tesco-treemap-punto tesco-treemap-color-<?=($i%9)+1?>" aria-hidden="true"></span>
+                  <span class="small flex-grow-1"><?=tesco_escape($tipo['nombre'])?></span>
+                  <strong class="small ml-2"><?=number_format($tipo['cantidad'],0,',','.')?></strong>
+                  <span class="small text-muted ml-2"><?=number_format($tipo['cantidad']/$totalProduccion*100,1,',','.')?>%</span>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <script type="application/json" id="tescoTreemapData"><?=$treemapJson?></script>
+        <noscript><p class="small text-muted">Activa JavaScript para ver el mapa de áreas; el desglose de cantidades y porcentajes permanece visible arriba.</p></noscript>
+      <?php endif; ?>
+    </div>
     </section>
 
     <!-- Convocatorias consultadas desde SQL Server -->
