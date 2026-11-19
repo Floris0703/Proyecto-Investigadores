@@ -95,3 +95,30 @@ section[id] { scroll-margin-top: 78px; }
 .tesco-public-menu .tesco-public-active { color: #fff !important; font-weight: 700; }
 .tesco-public-menu .tesco-public-menu-divider { border-color: #121C67; }
 .tesco-public-menu .nav-link:hover:not(.tesco-public-active) { background-color: rgba(18,28,103,.08); }
+
+/* El menú lateral debe flotar sobre toda la Landing, independientemente de MDB. */
+#menuLateral.tesco-public-menu {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1060 !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#menuLateral.tesco-public-menu .modal-dialog {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin: 0 !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-width: 400px;
+  width: min(90vw, 400px);
+  pointer-events: auto;
+}
+#menuLateral.tesco-public-menu .modal-content {
+  min-height: 100vh !important;
+  border-radius: 0 !important;
+}
+.modal-backdrop { z-index: 1050; }
