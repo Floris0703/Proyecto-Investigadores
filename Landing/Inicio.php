@@ -37,7 +37,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <title>Bienvenida | TESCo Investigadores</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/mdb.min.css">
-  <link rel="stylesheet" href="../css/style.css?v=4">
+  <link rel="stylesheet" href="../css/style.css?v=5">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 </head>
 <body>
