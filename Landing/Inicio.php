@@ -178,7 +178,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
         </div>
       </div>
     <!-- Treemap: área de cada rectángulo proporcional a producción académica en BD. -->
-    <div class="container mt-4">
+    <div id="produccion" class="container mt-4">
       <div class="section-heading mb-3">
         <span class="section-kicker">PRODUCCIÓN ACADÉMICA</span>
         <h3 class="h4 mb-2">Distribución por tipo de producción</h3>
@@ -261,7 +261,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
     <div class="container">
       <div class="row">
         <div class="col-md-5 mb-4 mb-md-0"><a class="footer-brand" href="#inicio">Tesco</a><p class="mt-2">Plataforma institucional de producción académica e investigación.</p></div>
-        <div class="col-md-3 mb-4 mb-md-0"><h2 class="h6">Navegación</h2><a href="#profesores">Profesores</a><a href="#produccion">Producción académica</a><a href="#estadisticas">Estadísticas</a></div>
+        <div class="col-md-3 mb-4 mb-md-0"><h2 class="h6">Navegación</h2><a href="#profesores">Profesores</a><a href="#produccion">Producción académica</a><a href="#titulo-indicadores">Estadísticas</a></div>
         <div class="col-md-4"><h2 class="h6">Contacto institucional</h2><p>Correo: contacto@institucion.edu.mx</p><p>Teléfono: (000) 000 0000</p></div>
       </div>
       <div class="footer-bottom">&copy; 2026 Institución educativa. Todos los derechos reservados.</div>
@@ -274,5 +274,6 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/landing-menu.js?v=4"></script>
+  <script src="../js/landing-treemap.js?v=1" defer></script>
 </body>
 </html>
