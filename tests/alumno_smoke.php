@@ -19,6 +19,9 @@ function sqlsrv_query($conn,string $sql,array $params=[]): object {
         ]]);
     }
     if (str_contains($sql,"OBJECT_ID(?, 'U')")) return new AlumnoMockStatement([['Disponible'=>0]]);
+    if (str_contains($sql,'FROM academico.NivelDominio WHERE Activo=1')) {
+        return new AlumnoMockStatement([['NivelDominioId'=>1,'Nombre'=>'Básico']]);
+    }
     if (str_contains($sql,'FROM academico.UsuarioHabilidad')) return new AlumnoMockStatement([]);
     if (str_contains($sql,'FROM academico.Convocatoria c') && str_contains($sql,'JOIN academico.Profesor pr')) {
         return new AlumnoMockStatement([['ConvocatoriaId'=>1,'Titulo'=>'Proyecto escolar',
@@ -69,5 +72,16 @@ if (!$esProfesor && (substr_count($html,'id="menuLateral"')!==1 || !str_contains
 if ($esProfesor) {
     $source=file_get_contents(__DIR__.'/../includes/alumno_datos.php');
     if (!str_contains($source,'c.UsuarioPublicadorId=?')) throw new RuntimeException('Falta filtro dueño de convocatoria.');
+}
+if (!$esProfesor && $pagina === 'cv.php') {
+    foreach (['name="habilidad_nombre"', 'name="nivel_dominio_id"', 'name="meses_experiencia"',
+              'name="accion" value="habilidad"', 'Solo Administración podrá revisarlas'] as $needle) {
+        if (!str_contains($html,$needle)) throw new RuntimeException('Falta formulario de habilidades: '.$needle);
+    }
+    $fuente=file_get_contents(__DIR__.'/../includes/alumno_datos.php');
+    foreach (["EstadoVerificacion='DECLARADA'", "Pendiente de clasificación",
+              'NivelDominioId=? AND Activo=1', "WHERE UsuarioId=? AND HabilidadId=?"] as $needle) {
+        if (!str_contains($fuente,$needle)) throw new RuntimeException('Falta protección de habilidades: '.$needle);
+    }
 }
 echo "OK: $pagina con rol ".($GLOBALS['alumno_smoke_role'])." y SQLSRV simulado\n";
