@@ -25,7 +25,7 @@ function sqlsrv_query($conn,string $sql,array $params=[]): object {
             'Descripcion'=>'Convocatoria abierta', 'FechaCierre'=>null,
             'Profesor'=>'Profesor de prueba','MiPostulacionId'=>null]]);
     }
-    if (str_contains($sql,'FROM academico.Postulacion p') && str_contains($sql,'JOIN academico.Convocatoria c')) {
+    if (preg_match('/FROM academico\\.Postulacion p\\b/', $sql) && str_contains($sql,'JOIN academico.Convocatoria c')) {
         return new AlumnoMockStatement([['PostulacionId'=>3,'Estado'=>'PENDIENTE',
             'FechaPostulacion'=>new DateTimeImmutable('2026-11-19'),
             'Titulo'=>'Proyecto escolar','ConvocatoriaId'=>1,'FechaCierre'=>null]]);
