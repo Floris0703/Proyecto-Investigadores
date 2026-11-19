@@ -31,7 +31,7 @@ function tesco_alumno_encabezado(string $titulo, string $activo, array $alumno):
           <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>TESCo
         </a>
         <ul class="navbar-nav flex-row ml-auto align-items-center">
-          <li class="nav-item"><a href="../Landing/Inicio.php" class="nav-link px-2" aria-label="Bienvenida" title="Bienvenida"><i class="fas fa-home"></i><span class="d-none d-lg-inline ml-1">Bienvenida</span></a></li>
+          <li class="nav-item"><a href="../Landing/Inicio.php" class="nav-link px-2" aria-label="Inicio" title="Inicio"><i class="fas fa-home"></i><span class="d-none d-lg-inline ml-1">Inicio</span></a></li>
           <li class="nav-item"><a href="index.php" class="nav-link px-2" aria-label="Resumen" title="Resumen"><i class="fas fa-chart-bar"></i><span class="d-none d-lg-inline ml-1">Resumen</span></a></li>
           <li class="nav-item"><a href="postulaciones.php" class="nav-link px-2" aria-label="Postulaciones" title="Postulaciones"><i class="fas fa-bell"></i></a></li>
           <li class="nav-item"><a href="perfil.php" class="nav-link px-2" aria-label="Perfil" title="Mi perfil"><i class="fas fa-user"></i></a></li>
@@ -66,7 +66,7 @@ function tesco_alumno_encabezado(string $titulo, string $activo, array $alumno):
         <div class="mt-auto pt-4">
           <hr class="border-primary">
           <p class="small text-muted mb-2"><?=tesco_escape(tesco_alumno_nombre($alumno))?></p>
-          <a class="nav-link text-dark px-0" href="../Landing/Inicio.php"><i class="fas fa-home mr-2"></i>Volver a bienvenida</a>
+          <a class="nav-link text-dark px-0" href="../Landing/Inicio.php"><i class="fas fa-home mr-2"></i>Volver a Inicio</a>
           <form action="../Landing/cerrar_sesion.php" method="post">
             <input type="hidden" name="csrf" value="<?=tesco_escape(tesco_csrf_public())?>">
             <button class="btn btn-link text-dark px-0" type="submit"><i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión</button>
