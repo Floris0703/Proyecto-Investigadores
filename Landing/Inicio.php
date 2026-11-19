@@ -20,7 +20,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <title>Inicio</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/mdb.min.css">
-  <link rel="stylesheet" href="../css/style.css?v=3">
+  <link rel="stylesheet" href="../css/style.css?v=4">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 </head>
 <body>
@@ -75,7 +75,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
         <h2 class="h5 mb-0" id="tituloMenuLateral">
           <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>Investigadores TESCo
         </h2>
-        <button type="button" class="close text-white" data-menu-close aria-label="Cerrar menú">
+        <button type="button" class="close text-white tesco-menu-close" data-menu-close aria-label="Cerrar menú">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -294,6 +294,6 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/main.js"></script>
-  <script src="../js/landing-menu.js?v=3"></script>
+  <script src="../js/landing-menu.js?v=4"></script>
 </body>
 </html>
