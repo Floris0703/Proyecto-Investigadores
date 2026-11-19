@@ -37,7 +37,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <title>Bienvenida | TESCo Investigadores</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/mdb.min.css">
-  <link rel="stylesheet" href="../css/style.css?v=5">
+  <link rel="stylesheet" href="../css/style.css?v=6">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 </head>
 <body>
@@ -190,33 +190,14 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
         <div class="alert alert-light border" role="status">Todavía no hay producción académica registrada para mostrar.</div>
       <?php else: ?>
         <?php
-          $totalProduccion = array_sum(array_column($produccionTreemap,'cantidad'));
           $treemapJson = json_encode(
               $produccionTreemap,
               JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_THROW_ON_ERROR
           );
         ?>
-        <div class="tesco-treemap-resumen d-flex flex-wrap justify-content-between align-items-center mb-3">
-          <span class="font-weight-bold"><i class="fas fa-chart-area text-success mr-2" aria-hidden="true"></i><?=number_format($totalProduccion,0,',','.')?> registros de producción</span>
-          <span class="small text-muted">Porcentajes calculados sobre el total registrado</span>
-        </div>
-        <div id="tescoTreemap" class="tesco-treemap" role="img" aria-label="Mapa de áreas proporcionales de producción académica. La distribución detallada aparece debajo."></div>
-        <div class="tesco-treemap-leyenda mt-3" aria-label="Detalle por categoría">
-          <div class="row">
-            <?php foreach ($produccionTreemap as $i=>$tipo): ?>
-              <div class="col-12 col-sm-6 col-lg-4 mb-2">
-                <div class="d-flex align-items-center">
-                  <span class="tesco-treemap-punto tesco-treemap-color-<?=($i%9)+1?>" aria-hidden="true"></span>
-                  <span class="small flex-grow-1"><?=tesco_escape($tipo['nombre'])?></span>
-                  <strong class="small ml-2"><?=number_format($tipo['cantidad'],0,',','.')?></strong>
-                  <span class="small text-muted ml-2"><?=number_format($tipo['cantidad']/$totalProduccion*100,1,',','.')?>%</span>
-                </div>
-              </div>
-            <?php endforeach; ?>
-          </div>
-        </div>
+        <div id="tescoTreemap" class="tesco-treemap" role="img" aria-label="Distribución proporcional de producción académica por categoría."></div>
         <script type="application/json" id="tescoTreemapData"><?=$treemapJson?></script>
-        <noscript><p class="small text-muted">Activa JavaScript para ver el mapa de áreas; el desglose de cantidades y porcentajes permanece visible arriba.</p></noscript>
+        <noscript><p class="small text-muted">Activa JavaScript para visualizar la distribución de producción académica.</p></noscript>
       <?php endif; ?>
     </div>
     </section>
@@ -274,6 +255,6 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/landing-menu.js?v=4"></script>
-  <script src="../js/landing-treemap.js?v=1" defer></script>
+  <script src="../js/landing-treemap.js?v=2" defer></script>
 </body>
 </html>
