@@ -22,8 +22,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     }
 }
 $cv=tesco_alumno_cv($uid);
+$niveles=tesco_alumno_niveles();
 tesco_alumno_encabezado('CV y experiencia','cv.php',$alumno);
-if (isset($_GET['guardado'])) tesco_alumno_alerta('Tu CV se actualizó correctamente.','success');
+if (isset($_GET['guardado'])) tesco_alumno_alerta('Los datos de tu CV se actualizaron correctamente.','success');
 if ($error!=='') tesco_alumno_alerta($error,'danger');
 ?>
 <div class="alert alert-info">
@@ -93,20 +94,72 @@ if ($error!=='') tesco_alumno_alerta($error,'danger');
     <?php tesco_alumno_tarjeta_fin(); ?>
 
     <?php tesco_alumno_tarjeta_inicio('Habilidades registradas','fas fa-tools'); ?>
+    <p class="text-muted small">Las habilidades que registres aparecen como <strong>declaradas</strong>. Solo Administración podrá revisarlas y validarlas.</p>
     <?php if (!$cv['habilidades']): ?>
-      <p class="text-muted">Todavía no se han asociado habilidades a tu cuenta. Los catálogos de habilidades se gestionan institucionalmente.</p>
+      <p class="text-muted">Aún no has registrado habilidades. Añade una desde el formulario de esta página.</p>
     <?php else: ?>
-      <div class="d-flex flex-wrap">
+      <div class="list-group list-group-flush">
         <?php foreach($cv['habilidades'] as $h): ?>
-          <span class="badge badge-light border p-2 mr-2 mb-2">
-            <?=tesco_escape($h['Habilidad'])?> · <?=tesco_escape($h['Nivel'])?>
-          </span>
+          <div class="list-group-item px-0">
+            <div class="d-flex flex-wrap justify-content-between align-items-start">
+              <div class="mb-2">
+                <strong class="d-block"><?=tesco_escape($h['Habilidad'])?></strong>
+                <span class="small text-muted"><?=tesco_escape($h['Nivel'])?>
+                  · <?= $h['MesesExperiencia'] === null ? 'Experiencia no indicada' : (int)$h['MesesExperiencia'].' meses de experiencia' ?>
+                </span>
+                <span class="badge badge-<?= $h['EstadoVerificacion'] === 'VALIDADA' ? 'success' : ($h['EstadoVerificacion'] === 'RECHAZADA' ? 'danger' : 'secondary') ?> ml-2">
+                  <?=tesco_escape($h['EstadoVerificacion'])?>
+                </span>
+              </div>
+              <?php if (in_array((string)$h['EstadoVerificacion'],['DECLARADA','RECHAZADA'],true)): ?>
+                <form method="post" class="ml-2">
+                  <input type="hidden" name="csrf" value="<?=tesco_escape(tesco_csrf_public())?>">
+                  <input type="hidden" name="accion" value="eliminar_habilidad">
+                  <input type="hidden" name="habilidad_id" value="<?= (int)$h['HabilidadId'] ?>">
+                  <button class="btn btn-outline-danger btn-sm" type="submit"
+                          aria-label="Eliminar habilidad <?=tesco_escape($h['Habilidad'])?>">Eliminar</button>
+                </form>
+              <?php endif; ?>
+            </div>
+          </div>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
     <?php tesco_alumno_tarjeta_fin(); ?>
   </div>
   <div class="col-12 col-lg-5">
+    <?php tesco_alumno_tarjeta_inicio('Añadir o actualizar habilidad','fas fa-plus-circle'); ?>
+    <p class="small text-muted">Escribe el nombre de tu habilidad. El nivel se selecciona del catálogo institucional. Si ya la declaraste, se actualizará.</p>
+    <?php if (!$niveles): ?>
+      <div class="alert alert-warning">No hay niveles activos en el catálogo. Solicita a Administración que configure los niveles de dominio.</div>
+    <?php else: ?>
+      <form method="post">
+        <input type="hidden" name="csrf" value="<?=tesco_escape(tesco_csrf_public())?>">
+        <input type="hidden" name="accion" value="habilidad">
+        <div class="form-group">
+          <label for="habilidad_nombre">Nombre de la habilidad *</label>
+          <input id="habilidad_nombre" name="habilidad_nombre" maxlength="120" class="form-control"
+                 placeholder="Ej. Python, análisis de datos, redacción académica" required>
+        </div>
+        <div class="form-group">
+          <label for="nivel_dominio_id">Nivel de dominio *</label>
+          <select id="nivel_dominio_id" name="nivel_dominio_id" class="custom-select" required>
+            <option value="">Selecciona tu nivel</option>
+            <?php foreach($niveles as $nivel): ?>
+              <option value="<?= (int)$nivel['NivelDominioId'] ?>"><?=tesco_escape($nivel['Nombre'])?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="meses_experiencia">Meses de experiencia (opcional)</label>
+          <input id="meses_experiencia" type="number" name="meses_experiencia" class="form-control"
+                 min="0" max="1200" step="1" placeholder="Ej. 6">
+        </div>
+        <p class="small text-muted mb-3"><i class="fas fa-info-circle mr-1"></i>La habilidad quedará como DECLARADA y, si es nueva, pendiente de clasificación institucional.</p>
+        <button class="btn btn-primary btn-block" type="submit">Guardar habilidad</button>
+      </form>
+    <?php endif; ?>
+    <?php tesco_alumno_tarjeta_fin(); ?>
     <?php if ($cv['experiencia_disponible']): ?>
     <?php tesco_alumno_tarjeta_inicio('Añadir experiencia','fas fa-plus-circle'); ?>
     <form method="post">
