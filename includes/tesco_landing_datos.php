@@ -103,17 +103,54 @@ function tesco_landing_convocatorias(int $limit = 6): array {
          ORDER BY c.FechaPublicacion DESC,c.ConvocatoriaId DESC"
     );
 }
+/** Detalle de una convocatoria vigente: datos públicos del proyecto, docente y requisitos. */
 function tesco_landing_convocatoria(int $id): ?array {
     if ($id < 1) return null;
     return tesco_db_one(
-        "SELECT c.ConvocatoriaId,c.Titulo,c.Descripcion,c.FechaPublicacion,c.FechaCierre
+        "SELECT c.ConvocatoriaId,c.Titulo,c.Descripcion,c.Requisitos,
+                c.FechaPublicacion,c.FechaInicioRecepcion,c.FechaCierre,
+                c.CupoTotal,c.HorarioColaboracion,c.UrlInformacion,
+                tc.Nombre AS TipoConvocatoria,
+                p.Titulo AS ProyectoTitulo,
+                COALESCE(NULLIF(LTRIM(RTRIM(CONCAT(pf.Nombre,' ',pf.ApellidoPaterno,' ',pf.ApellidoMaterno))),''),N'Docente investigador') AS Profesor,
+                pr.Departamento AS DepartamentoProfesor,
+                pr.GradoAcademico AS GradoAcademicoProfesor
          FROM academico.Convocatoria c
+         LEFT JOIN academico.TipoConvocatoria tc ON tc.TipoConvocatoriaId=c.TipoConvocatoriaId
+         LEFT JOIN academico.Proyecto p ON p.ProyectoId=c.ProyectoId
+         LEFT JOIN academico.Profesor pr ON pr.UsuarioId=c.UsuarioPublicadorId
+         LEFT JOIN plataforma.PerfilUsuario pf ON pf.UsuarioId=c.UsuarioPublicadorId
          WHERE c.ConvocatoriaId=?
            AND c.Estado IN ('PUBLICADA','ABIERTA')
            AND c.FechaPublicacion IS NOT NULL
            AND c.FechaPublicacion <= SYSDATETIME()
            AND (c.FechaCierre IS NULL OR c.FechaCierre >= SYSDATETIME())",
         [$id]
+    );
+}
+
+/** Habilidades que el docente solicita para esta convocatoria (migración 004). */
+function tesco_landing_habilidades_convocatoria(int $id): array {
+    if ($id < 1) return [];
+    return tesco_db_rows(
+        "SELECT h.Nombre AS Habilidad,n.Nombre AS NivelMinimo,ch.EsObligatoria
+         FROM academico.ConvocatoriaHabilidad ch
+         JOIN academico.Habilidad h ON h.HabilidadId=ch.HabilidadId
+         JOIN academico.NivelDominio n ON n.NivelDominioId=ch.NivelMinimoId
+         WHERE ch.ConvocatoriaId=?
+         ORDER BY ch.EsObligatoria DESC,h.Nombre",
+        [$id]
+    );
+}
+
+/** Estado de la solicitud del usuario actual, sin exponer datos de otras cuentas. */
+function tesco_landing_mi_postulacion(int $id,int $usuarioId): ?array {
+    if ($id < 1 || $usuarioId < 1) return null;
+    return tesco_db_one(
+        "SELECT PostulacionId,Estado,FechaPostulacion
+         FROM academico.Postulacion
+         WHERE ConvocatoriaId=? AND UsuarioId=?",
+        [$id,$usuarioId]
     );
 }
 function tesco_landing_fecha(mixed $value): string {
