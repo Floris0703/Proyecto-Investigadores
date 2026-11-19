@@ -9,7 +9,7 @@ El servidor valida el rol **ALUMNO** en `plataforma.UsuarioRol` y exige que el m
 - `Alumnos/index.php`: resumen con matrícula, carrera, semestre, total de postulaciones, en revisión, aceptadas y convocatorias vigentes.
 - `Alumnos/perfil.php`: consultar/editar nombres, carrera, semestre y biografía. No modifica correo ni matrícula institucionales.
 - `Alumnos/postulaciones.php`: convocatorias publicadas vigentes de profesores, solicitud con CSRF y verificación SQL, historial y estado. La restricción única `UQ_Postulacion_ConvocatoriaUsuario` evita duplicados.
-- `Alumnos/cv.php`: presentación, experiencia, formación académica y habilidades; permite agregar/eliminar formación y experiencia del usuario actual.
+- `Alumnos/cv.php`: presentación, experiencia, formación académica y habilidades; permite agregar/eliminar formación y experiencia, además de declarar, actualizar y eliminar habilidades propias. El nombre se escribe libremente y el nivel se obtiene de `academico.NivelDominio` activo.
 - `profesores/cv-postulante.php?postulacion_id=ID`: CV de un alumno asociado a una postulación de **una convocatoria cuyo publicador es el profesor autenticado**, con comprobación de rol y propiedad en SQL. En `profesores/postulaciones.php` se muestra el enlace «Ver CV».
 
 Las URLs HTML anteriores de Alumnos redirigen a las páginas protegidas, no muestran datos simulados.
@@ -38,3 +38,19 @@ Abrir `http://127.0.0.1:8000/`. Como el usuario local puede no tener la migraci�
 - **Pendiente** integración real del flujo en SQL Server Windows, revisión de datos personales y pruebas de UI en navegador; los smoke usan SQLSRV simulado. Para producción, preparar políticas de privacidad, consentimiento y retención del CV.
 - El CV leído por el profesor es el **CV vigente**, no una copia congelada al momento de postularse.
 - Sin modificación de `master`, sin migraciones ejecutadas y sin integración de API de IA.
+
+## Habilidades declaradas por alumnos y funcionalidades pendientes de Administración
+
+- El alumno escribe un nombre libre (máximo 120 caracteres), selecciona un `NivelDominioId` **activo** y opcionalmente indica entre 0 y 1200 meses de experiencia.
+- El backend busca una habilidad existente de igual nombre (sin distinguir mayúsculas/minúsculas ni espacios al inicio/final) y la reutiliza. Si no existe, crea un registro en `academico.Habilidad` bajo la categoría técnica **Pendiente de clasificación**; la categoría se crea de forma transaccional solo si falta.
+- Se inserta o actualiza **solo la relación del alumno autenticado** en `academico.UsuarioHabilidad`, con estado `DECLARADA`; no se permite que el alumno fije `VALIDADA`, `EN_REVISION`, `VerificadoPorUsuarioId` ni la evidencia.
+- Habilidades `DECLARADA` y `RECHAZADA` pueden volver a declararse o eliminarse; `EN_REVISION` y `VALIDADA` permanecen bloqueadas para modificaciones desde Alumnos.
+- El CV que visualiza el profesor responsable de una postulación incluye nombre, nivel, experiencia declarada y estado de verificación.
+
+**Backlog del futuro módulo Admin (no implementado aquí):**
+1. Revisar propuestas de nombres, corregir duplicados semánticos y asignar la categoría definitiva; la categoría provisional no equivale a una validación.
+2. Configurar catálogo institucional de niveles y categorías, y habilitar/deshabilitar entradas.
+3. Tramitar solicitudes de verificación, registrar evidencia, persona verificadora y fecha, y controlar las transiciones `DECLARADA → EN_REVISION → VALIDADA/RECHAZADA` en el servidor.
+4. Conservar trazabilidad y controles de permisos; evitar que una cuenta de alumno modifique los campos de verificación.
+
+No se modifica el esquema SQL en este PR: se reutilizan `academico.CategoriaHabilidad`, `academico.Habilidad`, `academico.NivelDominio` y `academico.UsuarioHabilidad` existentes. Aún se requiere prueba manual en SQL Server real para verificar colaciones/duplicados y concurrencia.
