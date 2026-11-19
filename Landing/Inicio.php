@@ -20,7 +20,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <title>Inicio</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/mdb.min.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style.css?v=3">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 </head>
 <body>
@@ -294,6 +294,6 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/main.js"></script>
-  <script src="../js/landing-menu.js"></script>
+  <script src="../js/landing-menu.js?v=3"></script>
 </body>
 </html>
