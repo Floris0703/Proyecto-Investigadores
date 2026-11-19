@@ -22,7 +22,25 @@ if ($role === 'PROFESOR') {
     http_response_code(403);
     exit('Tu usuario tiene rol PROFESOR, pero no tiene un perfil docente asociado.');
 }
-$label = $role === 'ALUMNO' ? 'Alumnos' : 'Administración';
+if ($role === 'ALUMNO') {
+    try {
+        $perfilAlumno = tesco_db_one(
+            'SELECT TOP (1) AlumnoId FROM academico.Alumno WHERE UsuarioId=?',
+            [tesco_usuario_actual()]
+        );
+        if ($perfilAlumno) {
+            header('Location: ../Alumnos/index.php', true, 303);
+            exit;
+        }
+    } catch (Throwable $e) {
+        error_log('TESCo: error al validar perfil de alumno');
+        http_response_code(503);
+        exit('No fue posible verificar tu perfil en este momento.');
+    }
+    http_response_code(403);
+    exit('Tu usuario tiene rol ALUMNO, pero no tiene una matrícula asociada en academico.Alumno.');
+}
+$label = 'Administración';
 ?>
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?=tesco_escape($label)?> | TESCo</title><link rel="stylesheet" href="../css/bootstrap.min.css"><link rel="stylesheet" href="../css/style.css"></head>
