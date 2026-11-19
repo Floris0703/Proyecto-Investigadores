@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comunicacion_activa": false,
+  "comunicacion_activa": true,
   "modo": "supervisado",
   "agentes": {
     "frontend": true,
