@@ -17,7 +17,7 @@
         Number.isFinite(Number(item.cantidad)) && Number(item.cantidad) > 0;
     });
   } catch (error) {
-    root.textContent = 'No fue posible dibujar la distribución. Consulta el desglose por categoría.';
+    root.textContent = 'No fue posible dibujar la distribución académica.';
     return;
   }
   if (!data.length) return;
@@ -29,8 +29,18 @@
   var percentage = new Intl.NumberFormat('es-MX', {
     minimumFractionDigits: 1, maximumFractionDigits: 1
   });
-  var palette = ['#121c67', '#5f8f1b', '#326e9a', '#a36b25', '#6d559e',
-                 '#177f7a', '#b14d61', '#567083', '#876c28'];
+  // Gradientes basados en el verde institucional TESCo (#ACCE22).
+  var palette = [
+    ['#8dad20', '#496d10'],
+    ['#779a1c', '#35540f'],
+    ['#9cbf29', '#557d12'],
+    ['#668c1b', '#304c0b'],
+    ['#a0c62a', '#63891a'],
+    ['#729a24', '#3d6513'],
+    ['#85ab26', '#426412'],
+    ['#638c24', '#31530e'],
+    ['#92b82c', '#4c7416']
+  ];
 
   function makeTile(item, x, y, width, height, index) {
     var cell = document.createElement('div');
@@ -41,7 +51,8 @@
     cell.style.top = y + '%';
     cell.style.width = width + '%';
     cell.style.height = height + '%';
-    cell.style.backgroundColor = palette[index % palette.length];
+    var colors = palette[index % palette.length];
+    cell.style.background = 'linear-gradient(135deg, ' + colors[0] + ', ' + colors[1] + ')';
     cell.title = item.nombre + ': ' + number.format(amount) + ' (' + percentage.format(share) + '%)';
 
     var inner = document.createElement('div');
@@ -60,7 +71,7 @@
     cell.appendChild(inner);
     root.appendChild(cell);
 
-    // Tiles pequeños conservan sus valores completos en la leyenda inferior.
+    // En bloques pequeños el detalle sigue disponible al pasar el cursor.
     if (cell.clientWidth < 115 || cell.clientHeight < 65) {
       cell.classList.add('tesco-treemap-compacta');
     }
@@ -102,6 +113,11 @@
 
   var indexed = data.map(function (item, i) { return { value: item, index: i }; });
   layout(indexed, 0, 0, 100, 100);
+  root.setAttribute('aria-label', 'Distribución proporcional de producción académica: ' +
+    data.map(function (item) {
+      return item.nombre + ': ' + number.format(Number(item.cantidad)) +
+        ' (' + percentage.format(100 * Number(item.cantidad) / total) + '%)';
+    }).join('; ') + '.');
 
   // Recalcula la legibilidad de bloques en cambios de tamaño de la ventana.
   function compact() {
