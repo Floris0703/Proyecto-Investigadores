@@ -60,7 +60,7 @@
     var green = greenForShare(share);
     cell.style.backgroundColor = green.color;
     cell.style.color = green.darkText ? '#183612' : '#ffffff';
-    cell.style.textShadow = green.darkText ? 'none' : '0 1px 3px rgba(0, 0, 0, .45)';
+    if (!green.darkText) cell.classList.add('tesco-treemap-oscura');
     cell.title = item.nombre + ': ' + number.format(amount) + ' (' + percentage.format(share) + '%)';
 
     var inner = document.createElement('div');
