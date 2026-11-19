@@ -205,7 +205,7 @@ function tesco_admin_perfil(array $admin,array $post): void {
             [$area?:null,$cargo?:null,$uid]);
     });
 }
-function tesco_admin_convocatorias(): array {
+function tesco_admin_convocatorias(string $buscar='',string $estado=''): array {
     return tesco_db_rows(
         "SELECT TOP (100) c.ConvocatoriaId,c.Titulo,c.Estado,c.FechaPublicacion,c.FechaCierre,
                 u.Correo AS Publicador,
@@ -214,7 +214,10 @@ function tesco_admin_convocatorias(): array {
          FROM academico.Convocatoria c
          JOIN plataforma.Usuario u ON u.UsuarioId=c.UsuarioPublicadorId
          LEFT JOIN plataforma.PerfilUsuario p ON p.UsuarioId=u.UsuarioId
-         ORDER BY c.ConvocatoriaId DESC"
+         WHERE (?='' OR c.Titulo LIKE ? OR u.Correo LIKE ?)
+           AND (?='' OR c.Estado=?)
+         ORDER BY c.ConvocatoriaId DESC",
+        [$buscar,'%'.$buscar.'%','%'.$buscar.'%',$estado,$estado]
     );
 }
 function tesco_admin_moderar_convocatoria(array $post): void {
@@ -230,7 +233,7 @@ function tesco_admin_moderar_convocatoria(array $post): void {
     );
     if ($n!==1) throw new InvalidArgumentException('No se pudo modificar la convocatoria. Verifica su estado actual.');
 }
-function tesco_admin_postulaciones(): array {
+function tesco_admin_postulaciones(string $estado=''): array {
     return tesco_db_rows(
         "SELECT TOP (100) po.PostulacionId,po.Estado,po.FechaPostulacion,c.Titulo,
                 a.Matricula,ua.Correo AS Alumno,up.Correo AS Profesor
@@ -239,10 +242,12 @@ function tesco_admin_postulaciones(): array {
          JOIN plataforma.Usuario ua ON ua.UsuarioId=po.UsuarioId
          JOIN plataforma.Usuario up ON up.UsuarioId=c.UsuarioPublicadorId
          LEFT JOIN academico.Alumno a ON a.UsuarioId=po.UsuarioId
-         ORDER BY po.PostulacionId DESC"
+         WHERE (?='' OR po.Estado=?)
+         ORDER BY po.PostulacionId DESC",
+        [$estado,$estado]
     );
 }
-function tesco_admin_produccion(): array {
+function tesco_admin_produccion(string $buscar=''): array {
     return [
         'proyectos'=>tesco_db_rows(
             "SELECT TOP (60) p.ProyectoId,p.Titulo,p.Estado,p.FechaInicio,
@@ -250,19 +255,25 @@ function tesco_admin_produccion(): array {
              FROM academico.Proyecto p
              LEFT JOIN academico.ProyectoParticipante pp ON pp.ProyectoId=p.ProyectoId AND pp.Rol='RESPONSABLE'
              LEFT JOIN plataforma.Usuario u ON u.UsuarioId=pp.UsuarioId
-             ORDER BY p.ProyectoId DESC"
+             WHERE (?='' OR p.Titulo LIKE ? OR u.Correo LIKE ?)
+             ORDER BY p.ProyectoId DESC",
+            [$buscar,'%'.$buscar.'%','%'.$buscar.'%']
         ),
         'publicaciones'=>tesco_db_rows(
             "SELECT TOP (60) pu.ProductoId,pr.Titulo,pu.TipoPublicacion,pr.FechaProducto
              FROM academico.Publicacion pu
              JOIN academico.Producto pr ON pr.ProductoId=pu.ProductoId
-             ORDER BY pu.ProductoId DESC"
+             WHERE (?='' OR pr.Titulo LIKE ?)
+             ORDER BY pu.ProductoId DESC",
+            [$buscar,'%'.$buscar.'%']
         ),
         'congresos'=>tesco_db_rows(
             "SELECT TOP (60) c.ActividadId,a.Nombre,a.Alcance,a.FechaInicio,c.Modalidad,c.Sede
              FROM academico.Congreso c
              JOIN academico.ActividadAcademica a ON a.ActividadId=c.ActividadId
-             ORDER BY c.ActividadId DESC"
+             WHERE (?='' OR a.Nombre LIKE ?)
+             ORDER BY c.ActividadId DESC",
+            [$buscar,'%'.$buscar.'%']
         )
     ];
 }
