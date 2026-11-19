@@ -184,8 +184,10 @@ body.tesco-menu-open { overflow: hidden !important; }
   transition: filter .18s ease;
 }
 .tesco-treemap-celda:hover { filter: brightness(1.12); }
-.tesco-treemap-nombre,
-.tesco-treemap-detalle { text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }
+.tesco-treemap-celda.tesco-treemap-oscura .tesco-treemap-nombre,
+.tesco-treemap-celda.tesco-treemap-oscura .tesco-treemap-detalle {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .45);
+}
 .tesco-treemap-interior {
   display: flex;
   flex-direction: column;
