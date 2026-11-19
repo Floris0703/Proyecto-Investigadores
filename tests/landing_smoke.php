@@ -73,5 +73,5 @@ tesco_check(str_contains($salida, 'index%20-%20copia.html'), 'logout retorna a p
 tesco_check(str_contains($conexionCompartida, "getenv('TESCO_SQL_SERVER')"), 'conexión de Profesores configurable');
 $profesorDatos = file_get_contents($raiz . '/includes/profesor_datos.php');
 tesco_check(str_contains($profesorDatos, 'CASE WHEN ?=1 THEN SYSDATETIME() ELSE NULL END'), 'convocatorias usan el reloj de SQL Server');
-tesco_check(!str_contains($profesorDatos, "$publicada?date('Y-m-d H:i:s'):null"), 'no usar hora PHP para publicar');
+tesco_check(!str_contains($profesorDatos, '$publicada?date(\'Y-m-d H:i:s\'):null'), 'no usar hora PHP para publicar');
 echo "OK: Landing, secuencia de navegación y autenticación simulada\n";
