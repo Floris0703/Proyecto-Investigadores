@@ -10,6 +10,7 @@ $error = (string)($_SESSION['tesco_login_error'] ?? '');
 unset($_SESSION['tesco_login_error']);
 header('Cache-Control: no-store');
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,8 +20,31 @@ header('Cache-Control: no-store');
   <link rel="stylesheet" href="../css/mdb.min.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <style>
+    body.tesco-login {
+      min-height: 100vh;
+      background-color: #172338;
+    }
+    body.tesco-login::before {
+      content: "";
+      position: fixed;
+      inset: -8px;
+      z-index: 0;
+      background: url('images/tesco%20banderas.jpeg') center center / cover no-repeat;
+      filter: blur(3px);
+      pointer-events: none;
+    }
+    .tesco-login main {
+      position: relative;
+      z-index: 1;
+    }
+    .tesco-login .card {
+      background-color: rgba(255, 255, 255, .97);
+      border-radius: .75rem;
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body class="tesco-login">
 <main class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
   <div class="row justify-content-center w-100"><div class="col-12 col-md-8 col-lg-5">
     <div class="card shadow-sm border-0"><div class="card-body p-4">

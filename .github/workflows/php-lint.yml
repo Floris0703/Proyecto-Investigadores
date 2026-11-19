@@ -6,6 +6,7 @@ on:
       - 'profesores/**/*.php'
       - 'Landing/**/*.php'
       - 'Alumnos/**/*.php'
+      - 'Admin/**/*.php'
       - 'tests/**/*.php'
       - '.github/workflows/php-lint.yml'
   pull_request:
@@ -14,6 +15,7 @@ on:
       - 'profesores/**/*.php'
       - 'Landing/**/*.php'
       - 'Alumnos/**/*.php'
+      - 'Admin/**/*.php'
       - 'tests/**/*.php'
       - '.github/workflows/php-lint.yml'
 jobs:
@@ -23,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check PHP syntax
         run: |
-          find includes profesores Landing Alumnos tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+          find includes profesores Landing Alumnos Admin tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Render nine teacher views with a mocked SQLSRV connection
         run: |
           for page in index.php perfil.php productividad.php proyectos.php publicaciones.php congresos.php titulacion.php convocatorias.php postulaciones.php; do
@@ -36,3 +38,10 @@ jobs:
           for page in index.php perfil.php postulaciones.php cv.php cv-postulante.php; do
             php tests/alumno_smoke.php "$page"
           done
+      - name: Render administrative dashboard and modules (mock SQLSRV)
+        run: |
+          for page in index.php perfil.php usuarios.php convocatorias.php postulaciones.php habilidades.php produccion.php; do
+            php tests/admin_smoke.php "$page"
+          done
+      - name: Validate critical ADMIN authorization invariants
+        run: php tests/admin_logic.php
