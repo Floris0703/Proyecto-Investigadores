@@ -13,5 +13,5 @@ if (!tesco_csrf_valid($_POST['csrf'] ?? null)) {
     exit('Token inválido.');
 }
 tesco_logout_local();
-header('Location: Inicio.php', true, 303);
+header('Location: index%20-%20copia.html', true, 303);
 exit;
