@@ -2,10 +2,21 @@
 declare(strict_types=1);
 require_once __DIR__.'/../includes/admin_layout.php';
 [$admin,$error]=tesco_admin_contexto();
-$postulaciones=tesco_admin_postulaciones();
+$estado=(string)($_GET['estado']??'');
+if (!in_array($estado,['','PENDIENTE','EN_REVISION','ACEPTADA','RECHAZADA'],true)) $estado='';
+$postulaciones=tesco_admin_postulaciones($estado);
 tesco_admin_inicio('Supervisión de postulaciones','postulaciones.php',$admin,$error);
 ?>
 <div class="alert alert-info"><i class="fas fa-eye mr-2"></i>Vista de seguimiento institucional. La aceptación o rechazo corresponde al profesor responsable de cada convocatoria, no a Administración.</div>
+<form method="get" class="form-inline mb-3">
+  <label for="estado" class="mr-2">Estado de postulación</label>
+  <select name="estado" id="estado" class="custom-select mr-2 mb-2">
+    <?php foreach([''=>'Todos','PENDIENTE'=>'Pendiente','EN_REVISION'=>'En revisión','ACEPTADA'=>'Aceptada','RECHAZADA'=>'Rechazada'] as $valor=>$etiqueta): ?>
+      <option value="<?=tesco_escape($valor)?>" <?=$estado===$valor?'selected':''?>><?=tesco_escape($etiqueta)?></option>
+    <?php endforeach; ?>
+  </select>
+  <button type="submit" class="btn btn-outline-primary mb-2">Filtrar</button>
+</form>
 <?php tesco_admin_tarjeta_inicio('Postulaciones registradas','fas fa-clipboard-check'); ?>
 <?php if (!$postulaciones): tesco_admin_sin_datos('Todavía no hay postulaciones registradas.'); else: ?>
 <div class="table-responsive"><table class="table table-striped table-hover tesco-admin-table">
