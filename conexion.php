@@ -1,10 +1,10 @@
 <?php
 // servidor de SQL Server
-$servidor = '(localdb)\MSSQLLocalDB';
+$servidor = getenv('TESCO_SQL_SERVER') ?: '(localdb)\\MSSQLLocalDB';
 
 //opciones de conexion
 $opciones = [
-    "DataBase" => "TESCoInvestigadores",
+    "DataBase" => (getenv('TESCO_SQL_DATABASE') ?: "TESCoInvestigadores"),
     "CharacterSet" => "UTF-8",
     "Encrypt" => false
 ];
