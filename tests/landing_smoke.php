@@ -7,7 +7,19 @@ $GLOBALS['tesco_test_state'] = 'ACTIVO';
 function sqlsrv_connect(string $server, array $options): object { return (object)['connected' => true]; }
 function sqlsrv_query(object $conn, string $sql, array $params = []): object {
     $rows = [];
-    if (str_contains($sql, 'COUNT_BIG(*)')) {
+    if (str_contains($sql, "SELECT 'proyectos' AS Categoria") && str_contains($sql, 'UNION ALL')) {
+        $rows = [
+            ['Categoria'=>'proyectos','Cantidad'=>5],
+            ['Categoria'=>'articulos','Cantidad'=>3],
+            ['Categoria'=>'libros','Cantidad'=>2],
+            ['Categoria'=>'capitulos','Cantidad'=>1],
+            ['Categoria'=>'otras_publicaciones','Cantidad'=>1],
+            ['Categoria'=>'titulaciones','Cantidad'=>2],
+            ['Categoria'=>'otros_productos','Cantidad'=>1],
+            ['Categoria'=>'congresos','Cantidad'=>4],
+            ['Categoria'=>'otras_actividades','Cantidad'=>1]
+        ];
+    } elseif (str_contains($sql, 'COUNT_BIG(*)')) {
         $rows = [['Profesores'=>2, 'Proyectos'=>3, 'Articulos'=>4, 'Congresos'=>5]];
     } elseif (str_contains($sql, 'FROM academico.Convocatoria')) {
         if (!str_contains($sql, "'PUBLICADA','ABIERTA'") || !str_contains($sql, 'FechaCierre')) {
@@ -39,6 +51,11 @@ function tesco_check(bool $condition, string $message): void {
 }
 $metricas = tesco_landing_metricas();
 tesco_check($metricas === ['profesores'=>2,'proyectos'=>3,'articulos'=>4,'congresos'=>5], 'métricas globales');
+$treemap=tesco_landing_treemap_produccion();
+tesco_check(count($treemap)===9, 'treemap cubre todas las categorias de produccion');
+tesco_check(array_sum(array_column($treemap,'cantidad'))===20, 'treemap suma registros sin duplicar');
+tesco_check($treemap[0]['id']==='proyectos' && $treemap[0]['cantidad']===5, 'orden descendente por cantidad');
+tesco_check($treemap[1]['id']==='congresos' && $treemap[1]['cantidad']===4, 'congresos únicos');
 tesco_check(count(tesco_landing_convocatorias()) === 1, 'convocatorias visibles');
 tesco_check(tesco_landing_convocatoria(4)['ConvocatoriaId'] === 4, 'detalle convocatorias');
 tesco_check(tesco_landing_convocatoria(0) === null, 'ID inválido');
@@ -68,6 +85,11 @@ tesco_check(substr_count($portada, 'href="login.php"') >= 3, 'tres accesos desde
 tesco_check(str_contains($login, 'action="autenticar.php"') && str_contains($login, 'name="csrf"'), 'login con POST y CSRF');
 tesco_check(str_contains($procesoLogin, "header('Location: Inicio.php', true, 303)"), 'redirección tras login a bienvenida');
 tesco_check(str_contains($bienvenida, '$roles = tesco_require_login();'), 'bienvenida protegida');
+tesco_check(str_contains($bienvenida, 'id="tescoTreemap"') && str_contains($bienvenida, 'landing-treemap.js'), 'treemap integrado en bienvenida');
+tesco_check(!str_contains($bienvenida, 'news-tile') && !str_contains($bienvenida, 'href="Historia.html"'), 'cards y enlaces heredados sustituidos');
+tesco_check(str_contains($bienvenida, 'tesco_landing_treemap_produccion()'), 'treemap alimentado por BD');
+$scriptTreemap=file_get_contents($raiz.'/js/landing-treemap.js');
+tesco_check(str_contains($scriptTreemap, 'layout(indexed') && str_contains($scriptTreemap, 'Number(item.cantidad)'), 'áreas proporcionales calculadas con JS local');
 tesco_check(str_contains($bienvenida, "elegir_rol.php") && str_contains($bienvenida, "panel.php") && str_contains($bienvenida, 'Entrar a mi perfil'), 'CTA hacia panel o rol');
 tesco_check(str_contains($salida, 'index%20-%20copia.html'), 'logout retorna a portada');
 tesco_check(str_contains($conexionCompartida, "getenv('TESCO_SQL_SERVER')"), 'conexión de Profesores configurable');
