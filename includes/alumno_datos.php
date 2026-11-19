@@ -60,7 +60,7 @@ function tesco_alumno_cv(int $usuarioId): array {
         [$usuarioId]
     ) : [];
     $habilidades = tesco_db_rows(
-        "SELECT h.Nombre AS Habilidad,n.Nombre AS Nivel,uh.MesesExperiencia,uh.EstadoVerificacion
+        "SELECT h.HabilidadId,h.Nombre AS Habilidad,n.Nombre AS Nivel,uh.MesesExperiencia,uh.EstadoVerificacion
          FROM academico.UsuarioHabilidad uh
          JOIN academico.Habilidad h ON h.HabilidadId=uh.HabilidadId
          JOIN academico.NivelDominio n ON n.NivelDominioId=uh.NivelDominioId
@@ -69,6 +69,123 @@ function tesco_alumno_cv(int $usuarioId): array {
     );
     return ['formacion'=>$formacion,'experiencia'=>$experiencia,'habilidades'=>$habilidades,
             'formacion_disponible'=>$formacionOk,'experiencia_disponible'=>$experienciaOk];
+}
+
+/** Las opciones de nivel proceden del catálogo institucional, no del formulario. */
+function tesco_alumno_niveles(): array {
+    return tesco_db_rows(
+        'SELECT NivelDominioId,Nombre FROM academico.NivelDominio WHERE Activo=1 ORDER BY Orden,NivelDominioId'
+    );
+}
+
+/** Altas y cambios de habilidades propias; la verificación queda reservada para Admin. */
+function tesco_alumno_guardar_habilidad(int $uid, array $post): void {
+    $accion = (string)($post['accion'] ?? '');
+    if ($accion === 'eliminar_habilidad') {
+        $id = filter_var($post['habilidad_id'] ?? null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
+        if (!$id) throw new InvalidArgumentException('Habilidad inválida.');
+        $affected = tesco_alumno_exec(
+            "DELETE FROM academico.UsuarioHabilidad
+             WHERE UsuarioId=? AND HabilidadId=? AND EstadoVerificacion IN ('DECLARADA','RECHAZADA')",
+            [$uid,(int)$id]
+        );
+        if ($affected !== 1) throw new InvalidArgumentException('La habilidad no existe o está bajo revisión institucional.');
+        return;
+    }
+    if ($accion !== 'habilidad') throw new InvalidArgumentException('Acción no permitida.');
+    $nombre = tesco_alumno_campo($post,'habilidad_nombre',120,true);
+    // Normalización básica; no se permite crear un nombre en blanco o compuesto solo por espacios.
+    $nombre = trim((string)preg_replace('/\\s+/u',' ',$nombre));
+    if ($nombre === '' || (function_exists('mb_strlen') ? mb_strlen($nombre,'UTF-8') : strlen($nombre)) > 120) {
+        throw new InvalidArgumentException('Ingresa un nombre de habilidad válido (máximo 120 caracteres).');
+    }
+    $nivel = filter_var($post['nivel_dominio_id'] ?? null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
+    if (!$nivel) throw new InvalidArgumentException('Selecciona un nivel institucional válido.');
+    $mesesTexto = trim((string)($post['meses_experiencia'] ?? ''));
+    if ($mesesTexto !== '' && (!ctype_digit($mesesTexto) || (int)$mesesTexto > 1200)) {
+        throw new InvalidArgumentException('Los meses de experiencia deben estar entre 0 y 1200.');
+    }
+    $meses = $mesesTexto === '' ? null : (int)$mesesTexto;
+    $conn = tesco_db();
+    if (!sqlsrv_begin_transaction($conn)) throw new RuntimeException('No se pudo iniciar la transacción.');
+    try {
+        $valido = tesco_db_one(
+            'SELECT NivelDominioId FROM academico.NivelDominio WHERE NivelDominioId=? AND Activo=1',
+            [(int)$nivel]
+        );
+        if (!$valido) throw new InvalidArgumentException('El nivel seleccionado no está habilitado.');
+        // Reutilizar una habilidad existente aunque esté en otra categoría.
+        $habilidad = tesco_db_one(
+            "SELECT TOP (1) h.HabilidadId
+             FROM academico.Habilidad h WITH (UPDLOCK,HOLDLOCK)
+             JOIN academico.CategoriaHabilidad c ON c.CategoriaId=h.CategoriaId
+             WHERE UPPER(LTRIM(RTRIM(h.Nombre)))=UPPER(?)
+               AND h.Activo=1
+             ORDER BY CASE WHEN c.Nombre=N'Pendiente de clasificación' THEN 1 ELSE 0 END,
+                      h.HabilidadId",
+            [$nombre]
+        );
+        if (!$habilidad) {
+            // Categoría provisional: clasificación y validación se harán en el módulo Admin.
+            $categoria = tesco_db_one(
+                "SELECT CategoriaId FROM academico.CategoriaHabilidad WITH (UPDLOCK,HOLDLOCK)
+                 WHERE Nombre=N'Pendiente de clasificación'",
+            );
+            if (!$categoria) {
+                tesco_alumno_exec(
+                    "INSERT INTO academico.CategoriaHabilidad (Nombre,Descripcion,Activo)
+                     VALUES (N'Pendiente de clasificación',
+                             N'Habilidades declaradas por alumnos, pendientes de revisión institucional.',1)"
+                );
+                $categoria = tesco_db_one(
+                    "SELECT CategoriaId FROM academico.CategoriaHabilidad
+                     WHERE Nombre=N'Pendiente de clasificación'"
+                );
+            }
+            if (!$categoria) throw new RuntimeException('No se pudo preparar la categoría.');
+            tesco_alumno_exec(
+                'INSERT INTO academico.Habilidad (CategoriaId,Nombre,Activo) VALUES (?,?,1)',
+                [(int)$categoria['CategoriaId'],$nombre]
+            );
+            $habilidad = tesco_db_one(
+                "SELECT TOP (1) HabilidadId FROM academico.Habilidad
+                 WHERE CategoriaId=? AND UPPER(LTRIM(RTRIM(Nombre)))=UPPER(?)
+                 ORDER BY HabilidadId DESC",
+                [(int)$categoria['CategoriaId'],$nombre]
+            );
+        }
+        if (!$habilidad) throw new RuntimeException('No se pudo registrar la habilidad.');
+        $hid = (int)$habilidad['HabilidadId'];
+        $existente = tesco_db_one(
+            'SELECT EstadoVerificacion FROM academico.UsuarioHabilidad WITH (UPDLOCK,HOLDLOCK) WHERE UsuarioId=? AND HabilidadId=?',
+            [$uid,$hid]
+        );
+        if ($existente) {
+            // No permitir que una edición estudiantil borre una revisión/verificación realizada por la institución.
+            if (!in_array((string)$existente['EstadoVerificacion'], ['DECLARADA','RECHAZADA'],true)) {
+                throw new InvalidArgumentException('Esta habilidad está en revisión o validada; solicita un cambio a Administración.');
+            }
+            tesco_alumno_exec(
+                "UPDATE academico.UsuarioHabilidad
+                 SET NivelDominioId=?,MesesExperiencia=?,EstadoVerificacion='DECLARADA',
+                     VerificadoPorUsuarioId=NULL,FechaVerificacion=NULL,
+                     EvidenciaReferencia=NULL,FechaActualizacion=SYSUTCDATETIME()
+                 WHERE UsuarioId=? AND HabilidadId=?",
+                [(int)$nivel,$meses,$uid,$hid]
+            );
+        } else {
+            tesco_alumno_exec(
+                "INSERT INTO academico.UsuarioHabilidad
+                 (UsuarioId,HabilidadId,NivelDominioId,MesesExperiencia,EstadoVerificacion)
+                 VALUES (?,?,?,?,'DECLARADA')",
+                [$uid,$hid,(int)$nivel,$meses]
+            );
+        }
+        if (!sqlsrv_commit($conn)) throw new RuntimeException('No se pudo confirmar la habilidad.');
+    } catch (Throwable $e) {
+        sqlsrv_rollback($conn);
+        throw $e;
+    }
 }
 
 function tesco_alumno_fecha(mixed $fecha): string {
@@ -140,6 +257,10 @@ function tesco_alumno_guardar_perfil(array $alumno, array $post): void {
 
 function tesco_alumno_agregar_cv(int $uid, array $post): void {
     $accion = (string)($post['accion'] ?? '');
+    if (in_array($accion, ['habilidad','eliminar_habilidad'],true)) {
+        tesco_alumno_guardar_habilidad($uid,$post);
+        return;
+    }
     if ($accion === 'experiencia') {
         if (!tesco_alumno_existe_tabla('academico.ExperienciaAcademica')) {
             throw new RuntimeException('Falta la tabla de experiencia de la migración 004.');
