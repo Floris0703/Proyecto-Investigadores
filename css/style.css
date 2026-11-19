@@ -160,3 +160,6 @@ section[id] { scroll-margin-top: 78px; }
   background-color: rgba(18, 28, 103, .08);
 }
 body.tesco-menu-open { overflow: hidden !important; }
+
+/* Suavizado ligero de la ilustración de portada sin afectar al texto ni los controles. */
+.tesco-portada-imagen { filter: blur(2px); }
