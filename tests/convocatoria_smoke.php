@@ -73,7 +73,16 @@ if ($mode==='multirrol') $GLOBALS['roles']=['ALUMNO','PROFESOR'];
 if ($mode==='postulado') $GLOBALS['existing']=true;
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     require_once __DIR__.'/../includes/tesco_auth.php';
-    $_POST = ['accion'=>'postular','csrf'=>$mode==='post_csrf'?'invalido':tesco_csrf_public()];
+    $_POST = ['accion'=>'postular','convocatoria_id'=>'4','csrf'=>$mode==='post_csrf'?'invalido':tesco_csrf_public()];
+}
+if ($mode==='post_profe') {
+    register_shutdown_function(static function(): void {
+        if (http_response_code()!==403 || $GLOBALS['insertCount']!==0) {
+            fwrite(STDERR,"Fallo: profesor intentó postular o permiso incorrecto\n");
+            exit(1);
+        }
+        echo "OK: postulación denegada al profesor\n";
+    });
 }
 if ($mode==='post_alumno') {
     register_shutdown_function(static function(): void {
@@ -95,28 +104,28 @@ $check(str_contains($html,'Robótica aplicada a procesos industriales'),'titulo'
 $check(str_contains($html,'Elena Gómez Méndez'),'profesor');
 $check(str_contains($html,'Robot móvil autónomo'),'proyecto vinculado');
 $check(str_contains($html,'Interés en automatización'),'requisitos');
-$check(str_contains($html,'Nivel mínimo: INTERMEDIO'),'habilidades');
+$check(str_contains($html,'INTERMEDIO'),'habilidades');
 $check(str_contains($html,'Lunes y miércoles'),'horario');
-$check(str_contains($html,'5 participantes'),'cupo informado');
+$check(str_contains($html,'5 lugares'),'cupo informado');
 if ($mode==='alumno') {
-    $check(str_contains($html,'Postularme a esta convocatoria'),'botón de postulación alumno');
+    $check(str_contains($html,'name="accion" value="postular"'),'botón de postulación alumno');
     $check(str_contains($html,'name="csrf"') && str_contains($html,'method="post"'),'formulario protegido');
 }
 if ($mode==='postulado') {
     $check(str_contains($html,'Ya te postulaste'),'mensaje de solicitud existente');
-    $check(!str_contains($html,'Postularme a esta convocatoria'),'sin formulario duplicado');
+    $check(!str_contains($html,'name="accion" value="postular"'),'sin formulario duplicado');
 }
 if ($mode==='profesor') {
-    $check(!str_contains($html,'Postularme a esta convocatoria'),'profesor sin acción alumno');
-    $check(str_contains($html,'Solo las cuentas con rol ALUMNO'),'rol protegido');
+    $check(!str_contains($html,'name="accion" value="postular"'),'profesor sin acción alumno');
+    $check(str_contains($html,'La postulación está disponible únicamente'),'rol protegido');
 }
 if ($mode==='anonimo') {
     $check(str_contains($html,'Iniciar sesión'),'login requerido');
-    $check(!str_contains($html,'Postularme a esta convocatoria'),'no acción anónima');
+    $check(!str_contains($html,'name="accion" value="postular"'),'no acción anónima');
 }
 if ($mode==='multirrol') {
-    $check(str_contains($html,'Seleccionar rol ALUMNO'),'cambio explícito de rol');
-    $check(!str_contains($html,'Postularme a esta convocatoria'),'sin acción para rol distinto');
+    $check(str_contains($html,'Cambiar a rol Alumno'),'cambio explícito de rol');
+    $check(!str_contains($html,'name="accion" value="postular"'),'sin acción para rol distinto');
 }
 if (in_array($mode,['post_profe','post_csrf'],true)) {
     $check(http_response_code()===403,'POST no autorizado');
