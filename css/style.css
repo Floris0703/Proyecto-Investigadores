@@ -103,12 +103,16 @@ section[id] { scroll-margin-top: 78px; }
 #tescoMenuOverlay.tesco-menu-overlay {
   position: fixed !important;
   inset: 0 !important;
-  z-index: 2000 !important;
+  z-index: 9999 !important;
   display: block;
+  height: 100vh;
   height: 100dvh;
+  width: 100vw;
   width: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  isolation: isolate;
 }
 .tesco-menu-backdrop {
   position: absolute;
@@ -126,6 +130,7 @@ section[id] { scroll-margin-top: 78px; }
   width: min(90vw, 400px);
   max-width: 400px;
   height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
