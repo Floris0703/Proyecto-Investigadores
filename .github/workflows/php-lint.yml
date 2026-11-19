@@ -33,6 +33,11 @@ jobs:
           done
       - name: Landing smoke test con SQLSRV simulado
         run: php tests/landing_smoke.php
+      - name: Render convocatoria detail for every role (mock SQLSRV)
+        run: |
+          for role in ALUMNO PROFESOR ADMIN ANONIMO POSTULADO MULTIRROL; do
+            php tests/convocatoria_detalle_smoke.php "$role"
+          done
       - name: Render student pages and authorized teacher CV (mock SQLSRV)
         run: |
           for page in index.php perfil.php postulaciones.php cv.php cv-postulante.php; do
