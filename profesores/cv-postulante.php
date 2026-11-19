@@ -96,7 +96,16 @@ header('Cache-Control: private, no-store');
   </div>
   <section class="card border-0 shadow-sm mb-4"><div class="card-header bg-white"><h2 class="h5 mb-0"><i class="fas fa-tools mr-2 text-success"></i>Habilidades</h2></div><div class="card-body">
   <?php if(!$cv['habilidades']): ?><p class="text-muted">Sin habilidades registradas.</p><?php else: ?>
-    <?php foreach($cv['habilidades'] as $h): ?><span class="badge badge-light border p-2 mb-2 mr-2"><?=tesco_escape($h['Habilidad'])?> · <?=tesco_escape($h['Nivel'])?></span><?php endforeach; ?>
+    <div class="d-flex flex-wrap">
+      <?php foreach($cv['habilidades'] as $h): ?>
+        <span class="badge badge-light border p-2 mb-2 mr-2">
+          <?=tesco_escape($h['Habilidad'])?> · <?=tesco_escape($h['Nivel'])?>
+          <?= $h['MesesExperiencia'] === null ? '' : ' · '.(int)$h['MesesExperiencia'].' meses' ?>
+          · <?=tesco_escape($h['EstadoVerificacion'])?>
+        </span>
+      <?php endforeach; ?>
+    </div>
+    <p class="small text-muted mb-0">Las habilidades DECLARADAS son autorreportadas y todavía no han sido validadas institucionalmente.</p>
   <?php endif; ?>
   </div></section>
   <p class="small text-muted">La información corresponde a la versión actual del CV y puede cambiar si el alumno la edita.</p>
