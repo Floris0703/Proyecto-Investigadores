@@ -82,3 +82,16 @@ section[id] { scroll-margin-top: 78px; }
 .carousel .carousel-control-next-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5L3.75 4l-2.5 2.5L2.75 8l4-4-4-4z'/%3e%3c/svg%3e") !important;
 }
+/* Navbar público: paleta institucional del módulo de Profesores, sin cambiar MDB ni el resto de Landing. */
+.tesco-public-nav-primary, .tesco-public-menu .modal-header, .tesco-public-active { background-color: #121C67 !important; }
+.tesco-public-nav-success { background-color: #ACCE22 !important; }
+.tesco-public-nav .navbar { min-height: 70px; }
+.tesco-public-nav .tesco-public-brand, .tesco-public-menu-heading { color: #121C67 !important; }
+.tesco-public-nav .nav-link, .tesco-public-nav .tesco-public-icon-button { color: #536174; }
+.tesco-public-nav .tesco-public-icon-button { text-transform: none; font-size: .93rem; box-shadow: none !important; }
+.tesco-public-menu .modal-content { background-color: #F2CE93 !important; color: #212529; }
+.tesco-public-menu .modal-dialog { max-width: 400px; width: min(90vw, 400px); }
+.tesco-public-menu .modal-header { border-bottom: 0; }
+.tesco-public-menu .tesco-public-active { color: #fff !important; font-weight: 700; }
+.tesco-public-menu .tesco-public-menu-divider { border-color: #121C67; }
+.tesco-public-menu .nav-link:hover:not(.tesco-public-active) { background-color: rgba(18,28,103,.08); }
