@@ -11,11 +11,12 @@ tesco_encabezado('Postulaciones recibidas','Solicitudes de estudiantes a convoca
 <div class="alert alert-light border">Aún no hay postulaciones para las convocatorias de este profesor.</div>
 <?php else: ?>
 <div class="table-responsive"><table class="table table-striped table-hover">
-<thead class="thead-light"><tr><th>Aspirante</th><th>Correo</th><th>Convocatoria</th><th>Fecha</th><th>Estado</th><th>Cambiar estado</th></tr></thead>
+<thead class="thead-light"><tr><th>Aspirante</th><th>CV</th><th>Correo</th><th>Convocatoria</th><th>Fecha</th><th>Estado</th><th>Cambiar estado</th></tr></thead>
 <tbody>
 <?php foreach($registros as $fila): ?>
 <tr>
  <td><?=tesco_h($fila['Aspirante'])?></td>
+ <td><a class="btn btn-outline-primary btn-sm" href="cv-postulante.php?postulacion_id=<?=urlencode((string)$fila['Id'])?>" aria-label="Ver CV del postulante <?=tesco_h($fila['Aspirante'])?>"><i class="fas fa-file-alt mr-1"></i>Ver CV</a></td>
  <td><?=tesco_h($fila['Correo'])?></td>
  <td><?=tesco_h($fila['Convocatoria'])?></td>
  <td><?=tesco_h(tesco_fecha($fila['Fecha']))?></td>
