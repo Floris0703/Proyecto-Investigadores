@@ -2,10 +2,25 @@
 declare(strict_types=1);
 require_once __DIR__.'/../includes/admin_layout.php';
 [$admin,$error]=tesco_admin_contexto();
-$convocatorias=tesco_admin_convocatorias();
+$buscar=trim((string)($_GET['q']??''));
+if (strlen($buscar)>100) $buscar=substr($buscar,0,100);
+$estado=(string)($_GET['estado']??'');
+if (!in_array($estado,['','BORRADOR','PUBLICADA','ABIERTA','CERRADA'],true)) $estado='';
+$convocatorias=tesco_admin_convocatorias($buscar,$estado);
 tesco_admin_inicio('Supervisión de convocatorias','convocatorias.php',$admin,$error);
 ?>
 <div class="alert alert-info"><i class="fas fa-info-circle mr-2"></i>Los profesores publican y gestionan sus convocatorias. Administración puede cerrar preventivamente una publicación y reactivarla, pero no crea ni modifica sus contenidos.</div>
+<form method="get" class="form-row align-items-end mb-3">
+  <div class="form-group col-md-6"><label for="q">Buscar título o profesor</label><input id="q" name="q" class="form-control" maxlength="100" value="<?=tesco_escape($buscar)?>"></div>
+  <div class="form-group col-md-4"><label for="estado">Estado</label>
+    <select name="estado" id="estado" class="custom-select">
+      <?php foreach([''=>'Todos','BORRADOR'=>'Borrador','PUBLICADA'=>'Publicada','ABIERTA'=>'Abierta','CERRADA'=>'Cerrada'] as $valor=>$etiqueta): ?>
+        <option value="<?=tesco_escape($valor)?>" <?=$estado===$valor?'selected':''?>><?=tesco_escape($etiqueta)?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <div class="form-group col-md-2"><button class="btn btn-outline-primary btn-block my-0" type="submit">Buscar</button></div>
+</form>
 <?php tesco_admin_tarjeta_inicio('Convocatorias institucionales','fas fa-bullhorn'); ?>
 <?php if (!$convocatorias): tesco_admin_sin_datos(); else: ?>
 <div class="table-responsive"><table class="table table-striped table-hover tesco-admin-table">
