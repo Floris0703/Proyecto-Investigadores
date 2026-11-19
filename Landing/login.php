@@ -22,16 +22,26 @@ header('Cache-Control: no-store');
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <style>
     body.tesco-login {
-      background: linear-gradient(rgba(14, 24, 62, .55), rgba(14, 24, 62, .55)),
-                  url('images/tesco%20banderas.jpeg') center center / cover no-repeat fixed;
       min-height: 100vh;
+      background-color: #172338;
+    }
+    body.tesco-login::before {
+      content: "";
+      position: fixed;
+      inset: -8px;
+      z-index: 0;
+      background: linear-gradient(rgba(14, 24, 62, .55), rgba(14, 24, 62, .55)),
+                  url('images/tesco%20banderas.jpeg') center center / cover no-repeat;
+      filter: blur(3px);
+      pointer-events: none;
+    }
+    .tesco-login main {
+      position: relative;
+      z-index: 1;
     }
     .tesco-login .card {
       background-color: rgba(255, 255, 255, .97);
       border-radius: .75rem;
-    }
-    @media (max-width: 767.98px) {
-      body.tesco-login { background-attachment: scroll; }
     }
   </style>
 </head>
