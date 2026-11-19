@@ -184,6 +184,8 @@ body.tesco-menu-open { overflow: hidden !important; }
   transition: filter .18s ease;
 }
 .tesco-treemap-celda:hover { filter: brightness(1.12); }
+.tesco-treemap-nombre,
+.tesco-treemap-detalle { text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }
 .tesco-treemap-interior {
   display: flex;
   flex-direction: column;
@@ -204,23 +206,6 @@ body.tesco-menu-open { overflow: hidden !important; }
 .tesco-treemap-compacta .tesco-treemap-interior { padding: 5px; gap: 2px; }
 .tesco-treemap-compacta .tesco-treemap-nombre { font-size: .7rem; line-height: 1.05; }
 .tesco-treemap-compacta .tesco-treemap-detalle { display: none; }
-.tesco-treemap-punto {
-  display: inline-block;
-  flex: 0 0 11px;
-  width: 11px;
-  height: 11px;
-  margin-right: 9px;
-  border-radius: 3px;
-}
-.tesco-treemap-color-1 { background-color: #121c67; }
-.tesco-treemap-color-2 { background-color: #5f8f1b; }
-.tesco-treemap-color-3 { background-color: #326e9a; }
-.tesco-treemap-color-4 { background-color: #a36b25; }
-.tesco-treemap-color-5 { background-color: #6d559e; }
-.tesco-treemap-color-6 { background-color: #177f7a; }
-.tesco-treemap-color-7 { background-color: #b14d61; }
-.tesco-treemap-color-8 { background-color: #567083; }
-.tesco-treemap-color-9 { background-color: #876c28; }
 @media (max-width: 575.98px) {
   .tesco-treemap { height: 390px; }
   .tesco-treemap-interior { padding: 7px; }
