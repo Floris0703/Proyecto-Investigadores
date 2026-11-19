@@ -21,12 +21,21 @@ header('Cache-Control: no-store');
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <style>
-    body {
-      background-image: url('../images/tesco banderas.jepg');
+    body.tesco-login {
+      background: linear-gradient(rgba(14, 24, 62, .55), rgba(14, 24, 62, .55)),
+                  url('images/tesco%20banderas.jpeg') center center / cover no-repeat fixed;
+      min-height: 100vh;
+    }
+    .tesco-login .card {
+      background-color: rgba(255, 255, 255, .97);
+      border-radius: .75rem;
+    }
+    @media (max-width: 767.98px) {
+      body.tesco-login { background-attachment: scroll; }
     }
   </style>
 </head>
-<body class="bg-light">
+<body class="tesco-login">
 <main class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
   <div class="row justify-content-center w-100"><div class="col-12 col-md-8 col-lg-5">
     <div class="card shadow-sm border-0"><div class="card-body p-4">
