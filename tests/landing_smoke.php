@@ -71,4 +71,7 @@ tesco_check(str_contains($bienvenida, '$roles = tesco_require_login();'), 'bienv
 tesco_check(str_contains($bienvenida, "elegir_rol.php") && str_contains($bienvenida, "panel.php") && str_contains($bienvenida, 'Entrar a mi perfil'), 'CTA hacia panel o rol');
 tesco_check(str_contains($salida, 'index%20-%20copia.html'), 'logout retorna a portada');
 tesco_check(str_contains($conexionCompartida, "getenv('TESCO_SQL_SERVER')"), 'conexión de Profesores configurable');
+$profesorDatos = file_get_contents($raiz . '/includes/profesor_datos.php');
+tesco_check(str_contains($profesorDatos, 'CASE WHEN ?=1 THEN SYSDATETIME() ELSE NULL END'), 'convocatorias usan el reloj de SQL Server');
+tesco_check(!str_contains($profesorDatos, "$publicada?date('Y-m-d H:i:s'):null"), 'no usar hora PHP para publicar');
 echo "OK: Landing, secuencia de navegación y autenticación simulada\n";
