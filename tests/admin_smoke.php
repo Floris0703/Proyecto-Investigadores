@@ -11,6 +11,14 @@ function sqlsrv_query($conn,string $sql,array $params=[]): object {
     if (str_contains($sql,'FROM plataforma.Usuario u') && str_contains($sql,'JOIN plataforma.UsuarioRol')) {
         return new AdminMockStmt([['Nombre'=>$GLOBALS['admin_smoke_role']??'ADMIN']]);
     }
+    if (str_contains($sql,'FROM plataforma.Usuario u') && str_contains($sql,'LEFT JOIN academico.Alumno al')) {
+        return new AdminMockStmt([[
+            'UsuarioId'=>7,'Correo'=>'alumno@example.test','EstadoCuenta'=>'ACTIVO',
+            'FechaRegistro'=>new DateTimeImmutable('2026-11-19'),
+            'Nombre'=>'Estudiante','ApellidoPaterno'=>'Prueba','Matricula'=>'TEST-ALU-001',
+            'NumeroEmpleado'=>null,'EsAdmin'=>0,'Roles'=>'ALUMNO'
+        ]]);
+    }
     if (str_contains($sql,'FROM plataforma.Administrativo ad')) {
         return new AdminMockStmt([[
             'AdministrativoId'=>1,'UsuarioId'=>9,'NumeroEmpleado'=>'ADMIN-001',
