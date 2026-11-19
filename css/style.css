@@ -213,3 +213,21 @@ body.tesco-menu-open { overflow: hidden !important; }
   .tesco-treemap-interior { padding: 7px; }
   .tesco-treemap-detalle { font-size: .72rem; }
 }
+
+
+/* Portada: botones sólidos que cambian a outline al pasar el cursor o enfocarse. */
+.hero-actions .tesco-hero-btn,
+.hero-actions .tesco-hero-btn:visited {
+  background-color: #ACCE22 !important;
+  border: 2px solid #ACCE22 !important;
+  color: #172338 !important;
+  box-shadow: none !important;
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.hero-actions .tesco-hero-btn:hover,
+.hero-actions .tesco-hero-btn:focus-visible {
+  background-color: transparent !important;
+  border-color: #89a51c !important;
+  color: #55700e !important;
+  box-shadow: none !important;
+}
