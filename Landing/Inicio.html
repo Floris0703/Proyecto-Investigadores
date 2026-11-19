@@ -11,103 +11,96 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 </head>
 <body>
-  <!-- Navegación principal: sintaxis compatible con Bootstrap 4.4.1 -->
-    <div class="container-fluid px-0 sticky-top">
-        <div class="bg-primary rounded-right pr-3">
-            <div class="bg-success rounded-right pr-3">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-right">
-                    <div class="container-fluid">
-                        <a href="#" class="navbar-brand">
-                          TESCo
-                        </a>
-                        <ul class="navbar-nav flex-row ml-auto align-items-center">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-bell"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-user"></i>
-                                </a>
-                            </li>
-                            <button class="navbar-toggler d-block ml-auto ml-lg-2"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#menuLateral"
-                                aria-label="Abrir menú">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                        </ul>
-                    </div>
-                </nav>
+  <!-- Navbar público: lenguaje visual del módulo Profesores, enlaces propios de Landing -->
+  <header class="tesco-public-nav sticky-top">
+    <div class="container-fluid px-0">
+      <div class="tesco-public-nav-primary rounded-right pr-3">
+        <div class="tesco-public-nav-success rounded-right pr-3">
+          <nav class="navbar navbar-expand-lg navbar-light bg-white rounded-right shadow-sm" aria-label="Navegación principal">
+            <div class="container-fluid">
+              <a class="navbar-brand font-weight-bold tesco-public-brand" href="Inicio.html">
+                <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>TESCo
+              </a>
+              <ul class="navbar-nav flex-row ml-auto align-items-center">
+                <li class="nav-item">
+                  <a class="nav-link px-2" href="Inicio.html" aria-current="page" title="Inicio público">
+                    <i class="fas fa-home" aria-hidden="true"></i><span class="d-none d-lg-inline ml-1">Inicio</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-2" href="#titulo-indicadores" title="Estadísticas institucionales">
+                    <i class="fas fa-chart-bar" aria-hidden="true"></i><span class="d-none d-lg-inline ml-1">Estadísticas</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-2" href="#profesores" title="Próximos proyectos">
+                    <i class="fas fa-bell" aria-hidden="true"></i><span class="sr-only">Próximos proyectos</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <button class="btn btn-link nav-link px-2 mb-0 tesco-public-icon-button" type="button"
+                          data-toggle="modal" data-target="#LogInicio" aria-label="Acceso de usuarios" title="Acceso">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  </button>
+                </li>
+              </ul>
+              <button class="navbar-toggler d-block ml-2" type="button" data-toggle="modal"
+                      data-target="#menuLateral" aria-label="Abrir menú de navegación"
+                      aria-controls="menuLateral" aria-haspopup="dialog">
+                <span class="navbar-toggler-icon"></span>
+              </button>
             </div>
+          </nav>
         </div>
+      </div>
     </div>
-    <div class="modal fade" id="menuLateral"
-        tabindex="-1" role="dialog"
-        aria-label="Menú de navegación">
-        <div class="modal-dialog m-0 h-100 w-75 mw-100" role="document">
-            <div class="modal-content h-100 bg-dark text-white rounded-0">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        TESCo
-                    </h5>
-                    <button type="button" class="close text-white"
-                        data-dismiss="modal" aria-label="cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body d-flex flex-column">
-                    <div>
-                        <small class="text-muted text-uppercase d-block mb-2">
-                            Acádemico
-                        </small>
-                        <nav class="nav flex-column">
-                            <a href="index.html" class="nav-link text-white bg-primary rounded">
-                                <i class="fas fa-chalkboard-teacher mr-2"></i> Resúmen
-                            </a>
-                            <a href="perfil.html" class="nav-link text-white">
-                                <i class="fas fa-user mr-2"></i> Mi perfil
-                            </a>
-                            <a href="productividad.html" class="nav-link text-white">
-                                <i class="fas fa-book mr-2"></i> Productividad
-                            </a>
-                            <a href="proyectos.html" class="nav-link text-white">
-                                <i class="fas fa-project-diagram mr-2"></i>Mis proyectos
-                            </a>
-                            <a href="publicaciones.html" class="nav-link text-white">
-                                <i class="fas fa-book-open mr-2"></i>Publicaciones
-                            </a>
-                            <a href="congresos.html" class="nav-link text-white">
-                                <i class="fas fa-globe-americas mr-2"></i>Congresos
-                            </a>
-                            <a href="titulacion.html" class="nav-link text-white">
-                                <i class="fas fa-graduation-cap mr-2"></i>Titulación
-                            </a>
-                            <a href="convocatorias.html" class="nav-link text-white">
-                                <i class="fas fa-book mr-2"></i>Convocatorias
-                            </a>
-                            <a href="postulaciones.html" class="nav-link text-white">
-                                <i class="fas fa-chalkboard-teacher mr-2"></i>Postulaciones
-                            </a>
-                        </nav>
-                    </div>
-                    <div class="mt-auto">
-                        <hr>
-                        <nav class="nav flex-column">
-                            <a href="#" class="nav-link text-white">
-                                <i class="fas fa-cog mr-2"></i>Configuración
-                            </a>
-                            <a href="index - copia.html" class="nav-link text-white">
-                                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
-                            </a>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+  </header>
+
+  <!-- Menú lateral institucional, equivalente visual al menú PHP de Profesores -->
+  <div class="modal fade tesco-public-menu" id="menuLateral" tabindex="-1" role="dialog"
+       aria-labelledby="tituloMenuLateral" aria-hidden="true">
+    <div class="modal-dialog m-0 h-100" role="document">
+      <div class="modal-content h-100 rounded-0">
+        <div class="modal-header text-white">
+          <h5 class="modal-title" id="tituloMenuLateral">
+            <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>Investigadores TESCo
+          </h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar menú">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body d-flex flex-column overflow-auto">
+          <div>
+            <small class="text-uppercase font-weight-bold d-block mb-2 tesco-public-menu-heading">Institucional</small>
+            <nav class="nav flex-column" aria-label="Secciones públicas">
+              <a href="Inicio.html" class="nav-link py-2 mb-1 rounded tesco-public-active" aria-current="page">
+                <i class="fas fa-home mr-2" aria-hidden="true"></i>Inicio
+              </a>
+              <a href="#titulo-indicadores" class="nav-link py-2 mb-1 rounded text-dark" data-dismiss="modal">
+                <i class="fas fa-chart-bar mr-2" aria-hidden="true"></i>Estadísticas
+              </a>
+              <a href="#profesores" class="nav-link py-2 mb-1 rounded text-dark" data-dismiss="modal">
+                <i class="fas fa-project-diagram mr-2" aria-hidden="true"></i>Próximos proyectos
+              </a>
+              <a href="../profesores/index.php" class="nav-link py-2 mb-1 rounded text-dark">
+                <i class="fas fa-chalkboard-teacher mr-2" aria-hidden="true"></i>Panel de profesores
+              </a>
+            </nav>
+          </div>
+          <div class="mt-auto pt-4">
+            <hr class="tesco-public-menu-divider">
+            <button type="button" class="btn btn-link nav-link text-dark px-0" data-dismiss="modal"
+                    data-toggle="modal" data-target="#LogInicio">
+              <i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i>Acceso a la plataforma
+            </button>
+            <span class="nav-link text-muted px-0" aria-disabled="true">
+              <i class="fas fa-cog mr-2" aria-hidden="true"></i>Configuración (próximamente)
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
   <main>
         <!-- Institucional -->
     <section class="section-padding section-muted">
