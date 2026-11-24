@@ -105,10 +105,56 @@ function tesco_catalogo(string $tabla,string $id,string $nombre): int {
  * El módulo únicamente confía en la sesión validada por el login oficial.
  */
 function tesco_profesor_actual(): array {
-    $usuarioId=tesco_usuario_actual();
-    if ($usuarioId===null) {
-        header('Location: ../Landing/login.php',true,303);
-        exit;
+    $sesion=filter_var($_SESSION['usuario_id'] ?? null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
+    $ip=(string)($_SERVER['REMOTE_ADDR'] ?? '');
+    $local=in_array($ip,['127.0.0.1','::1'],true);
+    $demo=filter_var(getenv('TESCO_PROFESOR_ID_DEV') ?: null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
+    if ($sesion) {
+        // Acceso de profesores: comprobar rol y cuenta directamente en SQL Server.
+        // Los roles indicados por el cliente nunca conceden acceso por sí solos.
+        if (isset($_SESSION['tesco_rol_activo']) && $_SESSION['tesco_rol_activo'] !== 'PROFESOR') {
+            http_response_code(403);
+            exit('No tienes permiso para acceder a Profesores con el rol actual.');
+        }
+        if (isset($_SESSION['tesco_login_at'])) {
+            $ultimo=(int)($_SESSION['tesco_last_activity'] ?? $_SESSION['tesco_login_at']);
+            if (time()-$ultimo > 1800) {
+                $_SESSION=[];
+                session_regenerate_id(true);
+                http_response_code(403);
+                exit('Tu sesión ha caducado.');
+            }
+            $_SESSION['tesco_last_activity']=time();
+        }
+        $permiso=tesco_uno("SELECT TOP (1) u.UsuarioId
+            FROM plataforma.Usuario u
+            JOIN plataforma.UsuarioRol ur ON ur.UsuarioId=u.UsuarioId
+            JOIN plataforma.Rol r ON r.RolId=ur.RolId
+            WHERE u.UsuarioId=?
+              AND UPPER(LTRIM(RTRIM(u.EstadoCuenta))) IN ('ACTIVO','ACTIVA')
+              AND UPPER(LTRIM(RTRIM(r.Nombre)))='PROFESOR'",[(int)$sesion]);
+        if (!$permiso) {
+            http_response_code(403);
+            exit('Usuario sin rol docente vigente.');
+        }
+        $row=tesco_uno("SELECT p.ProfesorId,p.UsuarioId,p.Departamento,p.GradoAcademico,u.Correo,
+                        per.Nombre,per.ApellidoPaterno,per.ApellidoMaterno,per.Biografia
+                        FROM academico.Profesor p
+                        JOIN plataforma.Usuario u ON u.UsuarioId=p.UsuarioId
+                        LEFT JOIN plataforma.PerfilUsuario per ON per.UsuarioId=u.UsuarioId
+                        WHERE p.UsuarioId=?",[(int)$sesion]);
+        $origen='sesion';
+    } elseif ($local && $demo) {
+        $row=tesco_uno("SELECT p.ProfesorId,p.UsuarioId,p.Departamento,p.GradoAcademico,u.Correo,
+                        per.Nombre,per.ApellidoPaterno,per.ApellidoMaterno,per.Biografia
+                        FROM academico.Profesor p
+                        JOIN plataforma.Usuario u ON u.UsuarioId=p.UsuarioId
+                        LEFT JOIN plataforma.PerfilUsuario per ON per.UsuarioId=u.UsuarioId
+                        WHERE p.ProfesorId=?",[(int)$demo]);
+        $origen='demo';
+    } else {
+        http_response_code(403);
+        exit('Acceso restringido. Para la demostración local: establecer TESCO_PROFESOR_ID_DEV=1 antes de iniciar PHP.');
     }
 
     // Verificación de los roles EN BD, no solo del contenido de la cookie.
