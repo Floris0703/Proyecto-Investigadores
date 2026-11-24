@@ -17,7 +17,7 @@
         <div class="container-fluid">
           <a class="navbar-brand font-weight-bold text-primary" href="index.php"><i class="fas fa-graduation-cap mr-2"></i>TESCo</a>
           <ul class="navbar-nav flex-row ml-auto align-items-center">
-            <li class="nav-item"><a class="nav-link px-2" href="../Landing/Inicio.html" title="Inicio público" aria-label="Inicio público"><i class="fas fa-home"></i><span class="d-none d-lg-inline ml-1">Inicio</span></a></li>
+            <li class="nav-item"><a class="nav-link px-2" href="../Landing/Inicio.php" title="Inicio público" aria-label="Inicio público"><i class="fas fa-home"></i><span class="d-none d-lg-inline ml-1">Inicio</span></a></li>
             <li class="nav-item"><a class="nav-link px-2" href="index.php" title="Resumen"><i class="fas fa-chart-bar"></i><span class="d-none d-lg-inline ml-1">Resumen</span></a></li>
             <li class="nav-item"><a class="nav-link px-2" href="convocatorias.php" aria-label="Convocatorias" title="Convocatorias"><i class="fas fa-bell"></i></a></li>
             <li class="nav-item"><a class="nav-link px-2" href="perfil.php" aria-label="Mi perfil" title="Mi perfil"><i class="fas fa-user"></i></a></li>

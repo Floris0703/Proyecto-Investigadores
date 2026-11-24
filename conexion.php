@@ -1,6 +1,5 @@
 <?php
 // servidor de SQL Server
-$servidor = getenv('TESCO_SQL_SERVER') ?: '(localdb)\\MSSQLLocalDB';
 
 //opciones de conexion
 $opciones = [

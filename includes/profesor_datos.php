@@ -1,12 +1,12 @@
 <?php
 /**
- * TESCo Investigadores | Acceso a datos para nueve vistas de profesor.
- * MODO DEMO: requiere localhost + variable TESCO_PROFESOR_ID_DEV=1.
- * El login ajeno NO se modifica; futuro contrato: $_SESSION['usuario_id'].
+ * TESCo Investigadores | Datos de profesores asociados al usuario autenticado.
+ * Contrato oficial: plataforma.Usuario.UsuarioId en $_SESSION['usuario_id'].
+ * El rol PROFESOR debe estar activo y vigente en SQL Server.
  */
 declare(strict_types=1);
-if (session_status() !== PHP_SESSION_ACTIVE) { session_start(); }
-require_once __DIR__ . '/../conexion.php';
+require_once __DIR__ . '/tesco_auth.php';
+tesco_session_start();
 
 function tesco_h(mixed $value): string {
     return htmlspecialchars((string)($value ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -30,8 +30,7 @@ function tesco_mes(mixed $fecha): ?int {
     return ctype_digit($m) ? (int)$m : null;
 }
 function tesco_query(string $sql, array $params=[]): mixed {
-    global $con;
-    $stmt=sqlsrv_query($con,$sql,$params);
+    $stmt=sqlsrv_query(tesco_db(),$sql,$params);
     if ($stmt === false) {
         error_log('TESCo SQLSRV: '.print_r(sqlsrv_errors(SQLSRV_ERR_ALL),true));
         throw new RuntimeException('No fue posible completar la consulta en SQL Server.');
@@ -90,7 +89,7 @@ function tesco_fecha_input(string $campo): ?string {
     return $v;
 }
 function tesco_transaccion(callable $fn): mixed {
-    global $con;
+    $con=tesco_db();
     if (!sqlsrv_begin_transaction($con)) throw new RuntimeException('No se pudo abrir la transacción.');
     try { $out=$fn(); if (!sqlsrv_commit($con)) throw new RuntimeException('No se pudo confirmar la transacción.'); return $out; }
     catch (Throwable $e) { sqlsrv_rollback($con); throw $e; }
@@ -101,37 +100,44 @@ function tesco_catalogo(string $tabla,string $id,string $nombre): int {
     if (!$r) throw new RuntimeException('Falta el catálogo '.$nombre.'; ejecuta los seeds oficiales.');
     return (int)$r['Id'];
 }
+/**
+ * Identidad: no se acepta ProfesorId por GET, variable de entorno o valor fijo.
+ * El módulo únicamente confía en la sesión validada por el login oficial.
+ */
 function tesco_profesor_actual(): array {
-    $sesion=filter_var($_SESSION['usuario_id'] ?? null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
-    $ip=(string)($_SERVER['REMOTE_ADDR'] ?? '');
-    $local=in_array($ip,['127.0.0.1','::1'],true);
-    $demo=filter_var(getenv('TESCO_PROFESOR_ID_DEV') ?: null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
-    if ($sesion) {
-        $row=tesco_uno("SELECT p.ProfesorId,p.UsuarioId,p.Departamento,p.GradoAcademico,u.Correo,
-                        per.Nombre,per.ApellidoPaterno,per.ApellidoMaterno,per.Biografia
-                        FROM academico.Profesor p
-                        JOIN plataforma.Usuario u ON u.UsuarioId=p.UsuarioId
-                        LEFT JOIN plataforma.PerfilUsuario per ON per.UsuarioId=u.UsuarioId
-                        WHERE p.UsuarioId=?",[(int)$sesion]);
-        $origen='sesion';
-    } elseif ($local && $demo) {
-        $row=tesco_uno("SELECT p.ProfesorId,p.UsuarioId,p.Departamento,p.GradoAcademico,u.Correo,
-                        per.Nombre,per.ApellidoPaterno,per.ApellidoMaterno,per.Biografia
-                        FROM academico.Profesor p
-                        JOIN plataforma.Usuario u ON u.UsuarioId=p.UsuarioId
-                        LEFT JOIN plataforma.PerfilUsuario per ON per.UsuarioId=u.UsuarioId
-                        WHERE p.ProfesorId=?",[(int)$demo]);
-        $origen='demo';
-    } else {
-        http_response_code(403);
-        exit('Acceso restringido. Para la demostración local: establecer TESCO_PROFESOR_ID_DEV=1 antes de iniciar PHP.');
+    $usuarioId=tesco_usuario_actual();
+    if ($usuarioId===null) {
+        header('Location: ../Landing/login.php',true,303);
+        exit;
     }
-    if (!$row) { http_response_code(404);exit('El profesor seleccionado no existe en la base de datos.'); }
-    $row['origen']=$origen;
+
+    // Verificación de los roles EN BD, no solo del contenido de la cookie.
+    $roles=tesco_roles_actuales();
+    if (!in_array('PROFESOR',$roles,true) ||
+        ($_SESSION['tesco_rol_activo'] ?? null)!=='PROFESOR') {
+        http_response_code(403);
+        exit('Acceso exclusivo al rol PROFESOR activo. Regresa a la bienvenida y selecciona tu rol autorizado.');
+    }
+
+    $row=tesco_uno(
+        "SELECT p.ProfesorId,p.UsuarioId,p.Departamento,p.GradoAcademico,u.Correo,
+                per.Nombre,per.ApellidoPaterno,per.ApellidoMaterno,per.Biografia
+         FROM academico.Profesor p
+         JOIN plataforma.Usuario u ON u.UsuarioId=p.UsuarioId
+         LEFT JOIN plataforma.PerfilUsuario per ON per.UsuarioId=u.UsuarioId
+         WHERE p.UsuarioId=? AND UPPER(LTRIM(RTRIM(u.EstadoCuenta))) IN ('ACTIVO','ACTIVA')",
+        [$usuarioId]
+    );
+    if (!$row) {
+        http_response_code(403);
+        exit('Tu cuenta tiene rol PROFESOR, pero no existe un perfil docente activo asociado en academico.Profesor.');
+    }
+
     $row['NombreCompleto']=trim(implode(' ',array_filter([
         $row['Nombre'] ?? '',$row['ApellidoPaterno'] ?? '',$row['ApellidoMaterno'] ?? ''
-    ],fn($v)=>is_string($v)&&trim($v)!=='')));
-    if ($row['NombreCompleto']==='') $row['NombreCompleto']='Profesor sin perfil completo';
+    ],static fn($v)=>is_string($v)&&trim($v)!=='')));
+    if ($row['NombreCompleto']==='') $row['NombreCompleto']=(string)$row['Correo'];
+    header('Cache-Control: private, no-store');
     return $row;
 }
 function tesco_procesar_post(array $profesor): void {

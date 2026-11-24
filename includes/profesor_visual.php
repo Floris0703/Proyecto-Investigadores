@@ -16,11 +16,11 @@ function tesco_estado(): void {
         <?=tesco_h($tescoFlash[1]??'')?> <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span>&times;</span></button>
       </div>
     <?php }
-    if(($tescoProfesor['origen']??'')==='demo') { ?>
-      <div class="alert alert-warning py-2 small">
-        <i class="fas fa-flask mr-2"></i><strong>Demostración local.</strong>
-        Los cambios realizados con los formularios se guardan en la base de pruebas del equipo.
-        ProfesorId <?=tesco_h($tescoProfesor['ProfesorId'])?>.
+    if(!empty($tescoProfesor['UsuarioId'])) { ?>
+      <div class="d-flex justify-content-end align-items-center mb-3 small text-muted">
+        <i class="fas fa-user-circle text-primary mr-2"></i>
+        Sesión: <strong class="ml-1"><?=tesco_h($tescoProfesor['NombreCompleto'])?></strong>
+        <span class="ml-2">(UsuarioId <?=tesco_h($tescoProfesor['UsuarioId'])?>)</span>
       </div>
     <?php }
 }

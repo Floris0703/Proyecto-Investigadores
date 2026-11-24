@@ -36,10 +36,16 @@
         </div>
         <div class="mt-auto pt-4">
           <hr class="border-primary">
-          <nav class="nav flex-column" aria-label="Opciones pendientes de implementar">
-            <span class="nav-link text-muted"><i class="fas fa-cog mr-2"></i>Configuración (próximamente)</span>
-            <span class="nav-link text-muted"><i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión (sin autenticación aún)</span>
-          </nav>
+          <div aria-label="Opciones de cuenta">
+            <span class="nav-link text-muted d-block"><i class="fas fa-cog mr-2"></i>Configuración (próximamente)</span>
+            <a class="nav-link text-primary d-block" href="../Landing/Inicio.php"><i class="fas fa-home mr-2"></i>Volver a bienvenida</a>
+            <form method="post" action="../Landing/cerrar_sesion.php" class="mb-0">
+              <input type="hidden" name="csrf" value="<?=htmlspecialchars(tesco_csrf_public(),ENT_QUOTES,'UTF-8')?>">
+              <button type="submit" class="btn btn-link text-primary px-3 py-2">
+                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
