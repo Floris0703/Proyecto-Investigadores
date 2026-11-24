@@ -1,0 +1,34 @@
+/* TESCo Alumnos: ajustes mínimos sobre Bootstrap institucional 4.4.1. */
+.tesco-alumno-menu-dialog {
+    max-width: 400px;
+    width: min(90vw, 400px);
+}
+#menuLateral .modal-content {
+    min-height: 100vh;
+}
+#menuLateral .modal-dialog {
+    height: 100vh !important;
+}
+#menuLateral .modal-body {
+    min-height: 0;
+}
+.tesco-cv-item:last-child {
+    border-bottom: 0 !important;
+}
+.card {
+    border-radius: .4rem;
+}
+@media (max-width: 575.98px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    .card-body {
+        padding: 1rem;
+    }
+    .display-4 {
+        font-size: 2.4rem;
+    }
+    .btn {
+        white-space: normal;
+    }
+}

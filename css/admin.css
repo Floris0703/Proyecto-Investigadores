@@ -1,0 +1,13 @@
+/* Ajustes mínimos sobre Bootstrap institucional 4.4.1. */
+.tesco-admin-menu-dialog { max-width: 345px; width: min(88vw,345px); }
+#menuLateral .modal-body { min-height: 0; }
+#menuLateral .nav-link { overflow-wrap:anywhere; }
+.tesco-admin-metrica { min-height: 124px; }
+.tesco-admin-table th { white-space: nowrap; }
+.tesco-admin-table td { vertical-align: middle; }
+.tesco-admin-form-corto { max-width: 680px; }
+@media (max-width: 575.98px) {
+  .tesco-admin-metrica { min-height: 110px; }
+  .tesco-admin-table { font-size: .88rem; }
+  .tesco-admin-table .btn { margin: 2px 0; }
+}

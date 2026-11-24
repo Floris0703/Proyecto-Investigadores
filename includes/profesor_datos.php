@@ -218,8 +218,10 @@ function tesco_procesar_post(array $profesor): void {
             case 'convocatoria':
                 $titulo=tesco_campo('titulo',200,true);$desc=tesco_campo('descripcion',3000);
                 $fecha=tesco_fecha_input('fecha_cierre');$publicada=($_POST['publicada']??'')==='1';
-                tesco_ejecutar("INSERT INTO academico.Convocatoria (UsuarioPublicadorId,Titulo,Descripcion,Estado,FechaPublicacion,FechaCierre) VALUES (?,?,?,?,?,?)",
-                    [$uid,$titulo,$desc?:null,$publicada?'PUBLICADA':'BORRADOR',$publicada?date('Y-m-d H:i:s'):null,$fecha]);
+                // La publicación se fecha en SQL Server: Landing compara con SYSDATETIME().
+                // No utilizar date() de PHP: ambos entornos pueden tener distintas zonas horarias.
+                tesco_ejecutar("INSERT INTO academico.Convocatoria (UsuarioPublicadorId,Titulo,Descripcion,Estado,FechaPublicacion,FechaCierre) VALUES (?,?,?,?,CASE WHEN ?=1 THEN SYSDATETIME() ELSE NULL END,?)",
+                    [$uid,$titulo,$desc?:null,$publicada?'PUBLICADA':'BORRADOR',$publicada?1:0,$fecha]);
                 $msg='Convocatoria registrada.';break;
             case 'postulacion_estado':
                 $id=filter_var($_POST['postulacion_id']??null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1]]);
