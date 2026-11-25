@@ -1,0 +1,34 @@
+name: TESCo gestor de tareas (sin API)
+on:
+  pull_request:
+    paths:
+      - '.coordinacion/**'
+      - 'AGENTS.md'
+      - '.github/workflows/tesco-gestor-tareas.yml'
+  push:
+    branches: [master]
+    paths:
+      - '.coordinacion/**'
+      - 'AGENTS.md'
+      - '.github/workflows/tesco-gestor-tareas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar-tareas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar tareas y generar resumen
+        run: |
+          python3 .coordinacion/gestor_tareas.py validate
+          {
+            echo "## Gestor de tareas TESCo"
+            echo '~~~'
+            python3 .coordinacion/gestor_tareas.py report
+            echo '~~~'
+            echo "Gestor informativo: no ejecuta IA, no hace push ni merges."
+          } >> "$GITHUB_STEP_SUMMARY"
