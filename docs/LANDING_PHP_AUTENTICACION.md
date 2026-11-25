@@ -65,3 +65,22 @@ El smoke test usa SQLSRV **simulado** y verifica enlaces del recorrido: valida l
 
 ## Git y coordinación
 Estos cambios se proponen en la rama existente `landing`. No hacer merge a `master` antes de revisar los PRs y realizar pruebas de integración. No se encienden agentes autónomos ni APIs de IA.
+
+
+## Treemap institucional de producción académica (rama `landing-treemap`)
+
+En `Landing/Inicio.php` los cards fotográficos Artículos, Congresos, Libros y Titulados se sustituyeron por un **treemap con superficies proporcionales al número de registros**. No usa librerías externas: `js/landing-treemap.js` y CSS aislado en `css/style.css`. El gráfico mantiene una leyenda legible con cantidades y porcentajes.
+
+La fuente es `tesco_landing_treemap_produccion()` dentro de `includes/tesco_landing_datos.php`, que consulta SQL Server en modo lectura, agrupando:
+- **Proyectos**: filas únicas de `academico.Proyecto`.
+- **Publicaciones**: `academico.Publicacion`, desglosadas en artículos, libros, capítulos y otras publicaciones.
+- **Trabajos de titulación**: productos cuyo `academico.TipoProducto.Nombre='TITULACION'`, excluyendo los que ya figuran como publicación. **No equivale a contar alumnos egresados**.
+- **Otros productos**: registros de `academico.Producto` que no son publicaciones ni titulaciones.
+- **Congresos**: filas únicas de `academico.Congreso`, es decir, eventos, no número de participaciones.
+- **Otras actividades académicas**: filas de `academico.ActividadAcademica` sin registro asociado en `academico.Congreso`.
+
+No se cuentan docentes, alumnos, convocatorias ni postulaciones como producción; sus indicadores permanecen en la parte superior. Cada entidad subyacente aporta **exactamente una unidad** a una categoría. Las categorías con cantidad cero no ocupan área; si todas están vacías aparece un aviso sin cifras inventadas.
+
+El algoritmo local divide recursivamente la superficie de manera proporcional a los conteos, reacciona a los cambios de tamaño y no necesita CDN. Los porcentajes se redondean solo para su presentación; por ello podrían no sumar 100.0 % al mostrarse. En ausencia de JavaScript la leyenda con cantidad y porcentaje permanece disponible. El SQL no filtra por estado de validación: representa **todos los registros institucionales almacenados**, no solamente producción aprobada.
+
+Pruebas: `php tests/landing_smoke.php` comprueba los nueve grupos, el total y que la portada emplea la visualización en lugar de los antiguos enlaces a archivos HTML de muestra. **Pendiente** verificar los conteos, permisos de lectura y comportamiento responsivo en SQL Server y navegadores reales antes de fusionar a `master`.

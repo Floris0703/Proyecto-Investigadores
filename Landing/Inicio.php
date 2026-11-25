@@ -18,10 +18,13 @@ try {
     error_log('TESCo: nombre de bienvenida no disponible');
 }
 $stats = null;
+$produccionTreemap = null;
 $convocatorias = [];
 $anunciosError = false;
 try { $stats = tesco_landing_metricas(); }
 catch (Throwable $e) { error_log('TESCo: métricas públicas no disponibles'); }
+try { $produccionTreemap = tesco_landing_treemap_produccion(); }
+catch (Throwable $e) { error_log('TESCo: producción del treemap no disponible'); }
 try { $convocatorias = tesco_landing_convocatorias(6); }
 catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'); $anunciosError = true; }
 ?>
@@ -34,7 +37,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <title>Bienvenida | TESCo Investigadores</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/mdb.min.css">
-  <link rel="stylesheet" href="../css/style.css?v=4">
+  <link rel="stylesheet" href="../css/style.css?v=7">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 </head>
 <body>
@@ -174,98 +177,29 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
           <?php endforeach; ?>
         </div>
       </div>
-    <style>
-      .news-tile {
-    position: relative;
-    overflow: hidden;
-    height: 100%;
-}
-
-.news-tile img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-    </style>
-    <!-- Producción académica -->
-      <div class="container">
-
-<div class="row">
-
-    <!-- ARTÍCULOS: columna izquierda -->
-    <div class="col-lg-8 col-md-12 mb-4">
-        <div class="news-tile view zoom z-depth-1 h-100">
-            <a href="Historia.html" class="text-white">
-                <img src="images/art inv.webp" class="img-fluid w-100" alt="Artículos">
-
-                <div class="mask rgba-stylish-strong">
-                    <div class="text-white text-center py-lg-5 py-0 my-0">
-                        <h4 class="card-title font-weight-bold">
-                            <strong>Artículos</strong>
-                        </h4>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- COLUMNA DERECHA -->
-    <div class="col-lg-4 col-md-12 mb-4 d-flex flex-column">
-
-        <!-- CONGRESOS -->
-        <div class="news-tile view zoom z-depth-1 flex-fill mb-3">
-            <a href="Ofrendas.html" class="text-white">
-                <img src="images/congrsos.jpg" class="img-fluid w-100" alt="Congresos">
-
-                <div class="mask rgba-stylish-strong">
-                    <div class="text-white text-center py-lg-5 py-0 my-0">
-                        <h4 class="card-title font-weight-bold">
-                            <strong>Congresos</strong>
-                        </h4>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- LIBROS Y TITULADOS -->
-        <div class="row flex-fill">
-
-            <div class="col-6">
-                <div class="news-tile view zoom z-depth-1 h-100">
-                    <a href="Vestimenta.html" class="text-white">
-                        <img src="images/libros.jpg" class="img-fluid w-100" alt="Libros">
-
-                        <div class="mask rgba-stylish-strong">
-                            <div class="text-white text-center py-lg-5 py-0 my-0">
-                                <h4 class="card-title font-weight-bold">
-                                    <strong>Libros</strong>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-6">
-                <div class="news-tile view zoom z-depth-1 h-100">
-                    <a href="Artesania.html" class="text-white">
-                        <img src="images/tesis.jpg" class="img-fluid w-100" alt="Titulados">
-
-                        <div class="mask rgba-stylish-strong">
-                            <div class="text-white text-center py-lg-5 py-0 my-0">
-                                <h4 class="card-title font-weight-bold">
-                                    <strong>Titulados</strong>
-                                </h4>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
+    <!-- Treemap: área de cada rectángulo proporcional a producción académica en BD. -->
+    <div id="produccion" class="container mt-4">
+      <div class="section-heading mb-3">
+        <span class="section-kicker">PRODUCCIÓN ACADÉMICA</span>
+        <h3 class="h4 mb-2">Distribución por tipo de producción</h3>
+        <p>El área representa la proporción de registros institucionales por categoría; no es una puntuación de calidad ni participación de mercado.</p>
       </div>
+      <?php if ($produccionTreemap === null): ?>
+        <div class="alert alert-warning" role="status">No fue posible consultar la distribución de producción académica.</div>
+      <?php elseif (!$produccionTreemap): ?>
+        <div class="alert alert-light border" role="status">Todavía no hay producción académica registrada para mostrar.</div>
+      <?php else: ?>
+        <?php
+          $treemapJson = json_encode(
+              $produccionTreemap,
+              JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_THROW_ON_ERROR
+          );
+        ?>
+        <div id="tescoTreemap" class="tesco-treemap" role="img" aria-label="Distribución proporcional de producción académica por categoría."></div>
+        <script type="application/json" id="tescoTreemapData"><?=$treemapJson?></script>
+        <noscript><p class="small text-muted">Activa JavaScript para visualizar la distribución de producción académica.</p></noscript>
+      <?php endif; ?>
+    </div>
     </section>
 
     <!-- Convocatorias consultadas desde SQL Server -->
@@ -308,7 +242,7 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
     <div class="container">
       <div class="row">
         <div class="col-md-5 mb-4 mb-md-0"><a class="footer-brand" href="#inicio">Tesco</a><p class="mt-2">Plataforma institucional de producción académica e investigación.</p></div>
-        <div class="col-md-3 mb-4 mb-md-0"><h2 class="h6">Navegación</h2><a href="#profesores">Profesores</a><a href="#produccion">Producción académica</a><a href="#estadisticas">Estadísticas</a></div>
+        <div class="col-md-3 mb-4 mb-md-0"><h2 class="h6">Navegación</h2><a href="#profesores">Profesores</a><a href="#produccion">Producción académica</a><a href="#titulo-indicadores">Estadísticas</a></div>
         <div class="col-md-4"><h2 class="h6">Contacto institucional</h2><p>Correo: contacto@institucion.edu.mx</p><p>Teléfono: (000) 000 0000</p></div>
       </div>
       <div class="footer-bottom">&copy; 2026 Institución educativa. Todos los derechos reservados.</div>
@@ -321,5 +255,6 @@ catch (Throwable $e) { error_log('TESCo: convocatorias públicas no disponibles'
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/landing-menu.js?v=4"></script>
+  <script src="../js/landing-treemap.js?v=3" defer></script>
 </body>
 </html>
